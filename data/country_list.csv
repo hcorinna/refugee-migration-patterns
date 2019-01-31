@@ -1,0 +1,229 @@
+country_code,name_en,region_code,region_code_en
+AFG,Afghanistan,142,Asia
+ALB,Albania,150,Europe
+ALG,Algeria,002,Africa
+AND,Andorra,150,Europe
+ANG,Angola,002,Africa
+AIA,Anguilla,419,Latin America and the Caribbean
+ANT,Antigua and Barbuda,419,Latin America and the Caribbean
+ARG,Argentina,419,Latin America and the Caribbean
+ARM,Armenia,142,Asia
+ABW,Aruba,419,Latin America and the Caribbean
+AUL,Australia,009,Oceania
+AUS,Austria,150,Europe
+AZE,Azerbaijan,142,Asia
+BHS,Bahamas,419,Latin America and the Caribbean
+BAH,Bahrain,142,Asia
+BGD,Bangladesh,142,Asia
+BAR,Barbados,419,Latin America and the Caribbean
+BLR,Belarus,150,Europe
+BEL,Belgium,150,Europe
+BZE,Belize,419,Latin America and the Caribbean
+BEN,Benin,002,Africa
+BER,Bermuda,021,Northern America
+BHU,Bhutan,142,Asia
+BOL,Bolivia (Plurinational State of),419,Latin America and the Caribbean
+BES,"Bonaire, Sint Eustatius and Saba",419,Latin America and the Caribbean
+BSN,Bosnia and Herzegovina,150,Europe
+BOT,Botswana,002,Africa
+BRA,Brazil,419,Latin America and the Caribbean
+BVI,British Virgin Islands,419,Latin America and the Caribbean
+BRU,Brunei Darussalam,142,Asia
+BUL,Bulgaria,150,Europe
+BKF,Burkina Faso,002,Africa
+BDI,Burundi,002,Africa
+CAM,Cambodia,142,Asia
+CMR,Cameroon,002,Africa
+CAN,Canada,021,Northern America
+CVI,Cape Verde,002,Africa
+CAY,Cayman Islands,419,Latin America and the Caribbean
+CAR,Central African Republic,002,Africa
+CHD,Chad,002,Africa
+CHL,Chile,419,Latin America and the Caribbean
+CHI,China,142,Asia
+COL,Colombia,419,Latin America and the Caribbean
+COI,Comoros,002,Africa
+COB,Congo,002,Africa
+COK,Cook Islands,009,Oceania
+COS,Costa Rica,419,Latin America and the Caribbean
+HRV,Croatia,150,Europe
+CUB,Cuba,419,Latin America and the Caribbean
+CUW,Curacao,419,Latin America and the Caribbean
+CYP,Cyprus,142,Asia
+CZE,Czech Republic,150,Europe
+ICO,Côte d'Ivoire,002,Africa
+KRN,Democratic People's Republic of Korea,142,Asia
+COD,Democratic Republic of the Congo,002,Africa
+DEN,Denmark,150,Europe
+DJB,Djibouti,002,Africa
+DMA,Dominica,419,Latin America and the Caribbean
+DOM,Dominican Republic,419,Latin America and the Caribbean
+ECU,Ecuador,419,Latin America and the Caribbean
+ARE,Egypt,002,Africa
+SAL,El Salvador,419,Latin America and the Caribbean
+EGU,Equatorial Guinea,002,Africa
+ERT,Eritrea,002,Africa
+EST,Estonia,150,Europe
+ETH,Ethiopia,002,Africa
+FRO,Faeroe Islands,150,Europe
+YUG,Federal Republic of Yugoslavia,150,Europe
+FIJ,Fiji,009,Oceania
+FIN,Finland,150,Europe
+FRA,France,150,Europe
+FGU,French Guiana,419,Latin America and the Caribbean
+FPO,French Polynesia,009,Oceania
+GAB,Gabon,002,Africa
+GAM,Gambia,002,Africa
+GEO,Georgia,150,Europe
+GFR,Germany,150,Europe
+GHA,Ghana,002,Africa
+GIB,Gibraltar,150,Europe
+GRE,Greece,150,Europe
+GRL,Greenland,021,Northern America
+GRN,Grenada,419,Latin America and the Caribbean
+GUA,Guatemala,419,Latin America and the Caribbean
+GUI,Guinea,002,Africa
+GNB,Guinea-Bissau,002,Africa
+GUY,Guyana,419,Latin America and the Caribbean
+HAI,Haiti,419,Latin America and the Caribbean
+VAT,Holy See,150,Europe
+HON,Honduras,419,Latin America and the Caribbean
+HKG,"Hong Kong SAR, China",142,Asia
+HUN,Hungary,150,Europe
+ICE,Iceland,150,Europe
+IND,India,142,Asia
+INS,Indonesia,142,Asia
+IRN,Iran (Islamic Republic of),142,Asia
+IRQ,Iraq,142,Asia
+IRE,Ireland,150,Europe
+ISR,Israel,142,Asia
+ITA,Italy,150,Europe
+JAM,Jamaica,419,Latin America and the Caribbean
+JPN,Japan,142,Asia
+JOR,Jordan,142,Asia
+KAZ,Kazakhstan,142,Asia
+KEN,Kenya,002,Africa
+KIR,Kiribati,009,Oceania
+KOS,Kosovo (S/RES/1244 (1999)),150,Europe
+KUW,Kuwait,142,Asia
+KGZ,Kyrgyzstan,142,Asia
+LAO,Lao People's Democratic Republic,142,Asia
+LVA,Latvia,150,Europe
+LEB,Lebanon,142,Asia
+LES,Lesotho,002,Africa
+LBR,Liberia,002,Africa
+LBY,Libya,002,Africa
+LBY,Libyan Arab Jamahiriya,002,Africa
+LIE,Liechtenstein,150,Europe
+LTU,Lithuania,150,Europe
+LUX,Luxembourg,150,Europe
+MAC,"Macao SAR, China",142,Asia
+MAD,Madagascar,002,Africa
+MLW,Malawi,002,Africa
+MLS,Malaysia,142,Asia
+MDV,Maldives,142,Asia
+MLI,Mali,002,Africa
+MTA,Malta,150,Europe
+MHL,Marshall Islands,009,Oceania
+MAR,Martinique,419,Latin America and the Caribbean
+MAU,Mauritania,002,Africa
+MTS,Mauritius,002,Africa
+MEX,Mexico,419,Latin America and the Caribbean
+FSM,Micronesia (Federated States of),009,Oceania
+MCO,Monaco,150,Europe
+MNG,Mongolia,142,Asia
+MNE,Montenegro,150,Europe
+MSR,Montserrat,419,Latin America and the Caribbean
+MOR,Morocco,002,Africa
+MOZ,Mozambique,002,Africa
+MYA,Myanmar,142,Asia
+NAM,Namibia,002,Africa
+NRU,Nauru,009,Oceania
+NEP,Nepal,142,Asia
+NET,Netherlands,150,Europe
+FNC,New Caledonia,009,Oceania
+NZL,New Zealand,009,Oceania
+NIC,Nicaragua,419,Latin America and the Caribbean
+NGR,Niger,002,Africa
+NIG,Nigeria,002,Africa
+NIU,Niue,009,Oceania
+NOR,Norway,150,Europe
+OMN,Oman,142,Asia
+PAK,Pakistan,142,Asia
+PLW,Palau,009,Oceania
+GAZ,"Palestinian Territory, Occupied",142,Asia
+PAN,Panama,419,Latin America and the Caribbean
+PNG,Papua New Guinea,009,Oceania
+PAR,Paraguay,419,Latin America and the Caribbean
+PER,Peru,419,Latin America and the Caribbean
+PHI,Philippines,142,Asia
+PCN,Pitcairn,009,Oceania
+POL,Poland,150,Europe
+POR,Portugal,150,Europe
+PUE,Puerto Rico,419,Latin America and the Caribbean
+QAT,Qatar,142,Asia
+KOR,Republic of Korea,142,Asia
+MDA,Republic of Moldova,150,Europe
+ROM,Romania,150,Europe
+RUS,Russian Federation,150,Europe
+RWA,Rwanda,002,Africa
+STK,Saint Kitts and Nevis,419,Latin America and the Caribbean
+LCA,Saint Lucia,419,Latin America and the Caribbean
+VCT,Saint Vincent and the Grenadines,419,Latin America and the Caribbean
+WES,Samoa,009,Oceania
+SMA,San Marino,150,Europe
+STP,Sao Tome and Principe,002,Africa
+SAU,Saudi Arabia,142,Asia
+SEN,Senegal,002,Africa
+SRB,Serbia (and Kosovo: S/RES/1244 (1999)),150,Europe
+YUG,Serbia and Montenegro,150,Europe
+SEY,Seychelles,002,Africa
+SLE,Sierra Leone,002,Africa
+SIN,Singapore,142,Asia
+SXM,Sint Maarten (Dutch part),419,Latin America and the Caribbean
+SVK,Slovakia,150,Europe
+SVN,Slovenia,150,Europe
+SOL,Solomon Islands,009,Oceania
+SOM,Somalia,002,Africa
+RSA,South Africa,002,Africa
+SSD,South Sudan,002,Africa
+SPA,Spain,150,Europe
+LKA,Sri Lanka,142,Asia
+GAZ,State of Palestine,142,Asia
+SUD,Sudan,002,Africa
+SUD,Sudan,002,Africa
+SUR,Suriname,419,Latin America and the Caribbean
+SWA,Swaziland,002,Africa
+SWE,Sweden,150,Europe
+SWI,Switzerland,150,Europe
+SYR,Syrian Arab Republic,142,Asia
+TJK,Tajikistan,142,Asia
+THA,Thailand,142,Asia
+MCD,The former Yugoslav Republic of Macedonia,150,Europe
+TMP,Timor-Leste,142,Asia
+TOG,Togo,002,Africa
+TON,Tonga,009,Oceania
+TRT,Trinidad and Tobago,419,Latin America and the Caribbean
+TUN,Tunisia,002,Africa
+TUR,Turkey,002,Africa
+TKM,Turkmenistan,142,Asia
+TCI,Turks and Caicos Islands,419,Latin America and the Caribbean
+TUV,Tuvalu,009,Oceania
+SUN,USSR,142,Asia
+UGA,Uganda,002,Africa
+UKR,Ukraine,150,Europe
+UAE,United Arab Emirates,142,Asia
+GBR,United Kingdom of Great Britain and Northern Ireland,150,Europe
+TAN,United Republic of Tanzania,002,Africa
+VIR,United States Virgin Islands,419,Latin America and the Caribbean
+USA,United States of America,021,Northern America
+URU,Uruguay,419,Latin America and the Caribbean
+UZB,Uzbekistan,142,Asia
+VAN,Vanuatu,009,Oceania
+VEN,Venezuela (Bolivarian Republic of),419,Latin America and the Caribbean
+SRV,Viet Nam,142,Asia
+WSH,Western Sahara,002,Africa
+YEM,Yemen,142,Asia
+ZAR,Zaire,002,Africa
+ZAM,Zambia,002,Africa
+ZIM,Zimbabwe,002,Africa
