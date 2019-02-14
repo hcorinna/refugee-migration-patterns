@@ -1,0 +1,36 @@
+<style type="text/css">
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.land {
+  fill: #aaa;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.arc {
+	stroke: #000;
+	fill:	rgba(250,0,0,0.5);
+	stroke-width: 1;
+}
+
+</style>
