@@ -1,7 +1,7 @@
 var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-var svg = d3.select("body")
+var svg = d3.select("#map")
     .append("svg")
     .style("cursor", "move");
 
@@ -44,7 +44,7 @@ function drawMap(world, data) {
     //colors for population metrics
     var color = d3.scaleThreshold()
         .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
-        .range(["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
+        .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
 
     var features = topojson.feature(world, world.objects.countries).features;
     var populationById = {};
@@ -139,7 +139,7 @@ function drawarcs(svg) {
     var projection = d3.geoMercator() //d3.geoOrthographic()
         .scale(130)
         .translate([width / 2, height / 1.5]);
-  
+
         var path = d3.geoPath().projection(projection);
 	var arcs = svg.selectAll('path.datamaps-arc').data( tradedata, JSON.stringify );
         console.log(arcs);
@@ -151,40 +151,39 @@ function drawarcs(svg) {
 			var origin = projection([-69.445469,45.253783]);
 			var dest = projection([datum.destination.longitude, datum.destination.latitude]);
 			var mid = [ (origin[0] + dest[0]) / 2, (origin[1] + dest[1]) / 2];
-			
+
 			//define handle points for Bezier curves. Higher values for curveoffset will generate more pronounced curves.
 			var curveoffset = 20,
 				midcurve = [mid[0]+curveoffset, mid[1]-curveoffset]
-		
-			// the scalar variable is used to scale the curve's derivative into a unit vector 
+
+			// the scalar variable is used to scale the curve's derivative into a unit vector
 			scalar = Math.sqrt(Math.pow(dest[0],2) - 2*dest[0]*midcurve[0]+Math.pow(midcurve[0],2)+Math.pow(dest[1],2)-2*dest[1]*midcurve[1]+Math.pow(midcurve[1],2));
-		
+
 			// define the arrowpoint: the destination, minus a scaled tangent vector, minus an orthogonal vector scaled to the datum.trade variable
-			arrowpoint = [ 
-				dest[0] - ( 0.5*datum.trade*(dest[0]-midcurve[0]) - datum.trade*(dest[1]-midcurve[1]) ) / scalar , 
-				dest[1] - ( 0.5*datum.trade*(dest[1]-midcurve[1]) - datum.trade*(-dest[0]+midcurve[0]) ) / scalar	
+			arrowpoint = [
+				dest[0] - ( 0.5*datum.trade*(dest[0]-midcurve[0]) - datum.trade*(dest[1]-midcurve[1]) ) / scalar ,
+				dest[1] - ( 0.5*datum.trade*(dest[1]-midcurve[1]) - datum.trade*(-dest[0]+midcurve[0]) ) / scalar
 			];
 
 			// move cursor to origin
-			return "M" + origin[0] + ',' + origin[1] 
+			return "M" + origin[0] + ',' + origin[1]
 			// smooth curve to offset midpoint
 				+ "S" + midcurve[0] + "," + midcurve[1]
-			//smooth curve to destination	
+			//smooth curve to destination
 				+ "," + dest[0] + "," + dest[1]
 			//straight line to arrowhead point
-				+ "L" + arrowpoint[0] + "," + arrowpoint[1] 
+				+ "L" + arrowpoint[0] + "," + arrowpoint[1]
 			// straight line towards original curve along scaled orthogonal vector (creates notched arrow head)
 				+ "l" + (0.3*datum.trade*(-dest[1]+midcurve[1])/scalar) + "," + (0.3*datum.trade*(dest[0]-midcurve[0])/scalar)
-				// smooth curve to midpoint	
-				+ "S" + (midcurve[0]) + "," + (midcurve[1]) 
-				//smooth curve to origin	
+				// smooth curve to midpoint
+				+ "S" + (midcurve[0]) + "," + (midcurve[1])
+				//smooth curve to origin
 				+ "," + origin[0] + "," + origin[1]
 		});
-	
+
 	arcs.exit()
 		.transition()
 		.style('opacity', 0)
 		.remove();
 
 }
-
