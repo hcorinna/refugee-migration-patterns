@@ -32,8 +32,6 @@ $(function() {
 
   svg.call(zoom);
 
-  map = svg.append("g");
-
   // year filter
   year = 2008;
   // migration volumn filter
@@ -73,17 +71,26 @@ $(function() {
         }
     });
 
-    var slider = document.getElementById("year-selector");
-    var output = document.getElementById("selected-year");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function() {
-      output.innerHTML = this.value;
+    d3.select("#year-selector")
+    .on("input", function() {
+      d3.select("#selected-year").html = this.value;
       year = this.value;
-      drawMap();
-    }
+      updateMap();
+    });
+
+    d3.select("#threshold-selector")
+    .on("input", function() {
+      d3.select("#selected-threshold").html = this.value;
+      threshold = this.value;
+      updateMap();
+    });
 });
 
+function updateMap() {
+  map.remove();
+  d3.selectAll("g > *").remove();
+  drawMap();
+}
 
 function drawMap() {
     var features = topojson.feature(world, world.objects.countries).features;
@@ -101,6 +108,7 @@ function drawMap() {
     });
     migration_features = migrate(features, migration, year);
 
+    map = svg.append("g");
     // draw map
     map.append("g")
         .selectAll("path")
