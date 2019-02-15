@@ -28,7 +28,7 @@
 .arc {
 	stroke: #000;
 	fill:	rgba(250,0,0,0.5);
-	stroke-width: 1;
+	stroke-width: 0;
 }
 
 path {
