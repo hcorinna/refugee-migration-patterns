@@ -1,64 +1,95 @@
-var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-    height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+var map;
+var year;
+var projection;
+var threshold;
+var path;
+var color;
+var svg;
+var tooltip;
+var world;
+var country_features;
+var migration;
 
-var svg = d3.select("#map")
-    .append("svg")
-    .style("cursor", "move");
+/**
+ * Execute once page has been fully loaded.
+ */
+$(function() {
+  var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+      height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-svg.attr("viewBox", "50 10 " + width + " " + height)
-    .attr("preserveAspectRatio", "xMinYMin");
+  svg = d3.select("#map")
+      .append("svg")
+      .style("cursor", "move");
 
-var zoom = d3.zoom()
-    .on("zoom", function () {
-        var transform = d3.zoomTransform(this);
-        map.attr("transform", transform);
-    });
+  svg.attr("viewBox", "50 10 " + width + " " + height)
+      .attr("preserveAspectRatio", "xMinYMin");
 
-svg.call(zoom);
+  var zoom = d3.zoom()
+      .on("zoom", function () {
+          var transform = d3.zoomTransform(this);
+          map.attr("transform", transform);
+      });
 
-var map = svg.append("g");
+  svg.call(zoom);
 
-// year filter
-var year = 2008;
-// migration volumn filter
-var threshold = 10000;
+  map = svg.append("g");
 
-// geoMercator projection
-var projection = d3.geoMercator() //d3.geoOrthographic()
-    .scale(130)
-    .translate([width / 2, height / 1.5]);
+  // year filter
+  year = 2008;
+  // migration volumn filter
+  threshold = 10000;
 
-// geoPath projection
-var path = d3.geoPath().projection(projection);
+  // geoMercator projection
+  projection = d3.geoMercator() //d3.geoOrthographic()
+      .scale(130)
+      .translate([width / 2, height / 1.5]);
 
-//colors for population metrics
-var color = d3.scaleThreshold()
-    .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
-    .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
+  // geoPath projection
+  path = d3.geoPath().projection(projection);
 
-var tooltip = d3.select("#map")
-        .append("div")
-        .attr("class", "tooltip hidden");
+  //colors for population metrics
+  color = d3.scaleThreshold()
+      .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
+      .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
 
-// loading json stuffs
-d3.queue()
+  tooltip = d3.select("#map")
+          .append("div")
+          .attr("class", "tooltip hidden");
+
+  // loading json stuffs
+  d3.queue()
     .defer(d3.json, "src/data/50m.json")
     .defer(d3.json, "src/data/population.json")
     .defer(d3.json,"src/data/migrate.json")
-    .await(function (error, world, data, migration) {
+    .await(function (error, world_data, population_data, migration_data) {
         if (error) {
             console.error('Oh dear, something went wrong: ' + error);
         }
         else {
-            drawMap(world, data, migration);
+          world = world_data;
+          country_features = population_data;
+          migration = migration_data;
+          drawMap();
         }
     });
 
-function drawMap(world, data, migration) {
+    var slider = document.getElementById("year-selector");
+    var output = document.getElementById("selected-year");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+      year = this.value;
+      drawMap();
+    }
+});
+
+
+function drawMap() {
     var features = topojson.feature(world, world.objects.countries).features;
     var populationById = {};
 
-    data.forEach(function (d) {
+    country_features.forEach(function (d) {
         populationById[d.country] = {
             total: +d.total,
             females: +d.females,
@@ -98,7 +129,7 @@ function drawMap(world, data, migration) {
                 .style("stroke-width", 0.25);
             tooltip.classed("hidden", true);
         });
-    
+
     // draw middle of country
     // map.append("g")
     //     .selectAll("circle.central")
@@ -203,7 +234,7 @@ function migrate(world_data, migration_data, select_year){
         );
     });
     var country_map = d3.map(country_data, function(d){ return d.id});
-    var migration = []
+    var movements = []
     migration_data.forEach(function(d){
         d = JSON.parse(d);
         if (d.year != parseInt(select_year) || d.value < parseInt(threshold)){
@@ -220,11 +251,11 @@ function migrate(world_data, migration_data, select_year){
         delete d.FROM;
         delete d.TO;
         delete d.year;
-        
-        migration.push(d);
-        
+
+        movements.push(d);
+
       });
-    return migration;
+    return movements;
 
 };
 
@@ -238,7 +269,7 @@ function middle_coordinates(list_coordinates){
     list_coordinates.forEach(function(coordinate){
       loop = loop + 1;
       sum_x = sum_x + parseFloat(coordinate[0]);
-      count_x = count_x + 1; 
+      count_x = count_x + 1;
       sum_y = sum_y + parseFloat(coordinate[1]);
       count_y = count_y + 1;
     })
@@ -279,6 +310,6 @@ function showTooltip(d, event) {
 };
 
 function selected() {
-    d3.select('.selected').classed('selected', false);
-    d3.select(this).classed('selected', true);
-  };
+  d3.select('.selected').classed('selected', false);
+  d3.select(this).classed('selected', true);
+};
