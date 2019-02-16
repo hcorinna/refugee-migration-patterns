@@ -35,7 +35,7 @@ $(function() {
   // year filter
   year = 2008;
   // migration volumn filter
-  threshold = 10000;
+  threshold = 0.01;
 
   // geoMercator projection
   projection = d3.geoMercator() //d3.geoOrthographic()
@@ -73,14 +73,14 @@ $(function() {
 
     d3.select("#year-selector")
     .on("input", function() {
-      d3.select("#selected-year").html = this.value;
+      d3.select("#selected-year").html(this.value);
       year = this.value;
       updateMap();
     });
 
     d3.select("#threshold-selector")
     .on("input", function() {
-      d3.select("#selected-threshold").html = this.value;
+      d3.select("#selected-threshold").html(this.value);
       threshold = this.value;
       updateMap();
     });
@@ -94,17 +94,16 @@ function updateMap() {
 
 function drawMap() {
     var features = topojson.feature(world, world.objects.countries).features;
-    var populationById = {};
+    var hdiById = {};
 
     country_features.forEach(function (d) {
-        populationById[d.country] = {
+        hdiById[d.country] = {
             total: +d.total,
-            females: +d.females,
-            males: +d.males
+            // total: +d[year]
         }
     });
     features.forEach(function (d) {
-        d.details = populationById[d.properties.name] ? populationById[d.properties.name] : {};
+        d.details = hdiById[d.properties.name] ? hdiById[d.properties.name] : {};
     });
     migration_features = migrate(features, migration, year);
 
@@ -167,8 +166,8 @@ function drawarcs(svg, migration) {
     min_migration = threshold;
     max_migration = 0;
     migration.forEach(function(d){
-        if (d.value > max_migration){
-            max_migration = d.value;
+        if (d.share > max_migration){
+            max_migration = d.share;
         };
     });
     var pop_scale = d3.scaleLinear().domain([min_migration, max_migration]).range([1,100])
@@ -180,7 +179,7 @@ function drawarcs(svg, migration) {
 			var origin = [d.source.x, d.source.y];
 			var dest = [d.target.x, d.target.y];
             var mid = [ (origin[0] + dest[0]) / 2, (origin[1] + dest[1]) / 2];
-            var size = pop_scale(d.value);
+            var size = pop_scale(d.share);
 
 			//define handle points for Bezier curves. Higher values for curveoffset will generate more pronounced curves.
 			var curveoffset = 20,
@@ -245,19 +244,19 @@ function migrate(world_data, migration_data, select_year){
     var movements = []
     migration_data.forEach(function(d){
         d = JSON.parse(d);
-        if (d.year != parseInt(select_year) || d.value < parseInt(threshold)){
+        if (d.year != parseInt(select_year) || d.share < parseFloat(threshold)){
           return
         };
 
-        d.source = country_map.get(d.FROM);
-        d.target = country_map.get(d.TO);
+        d.source = country_map.get(d['iso-origin']);
+        d.target = country_map.get(d['iso-destination']);
 
         if (d.source == null || d.target == null){
           return
         };
 
-        delete d.FROM;
-        delete d.TO;
+        delete d['iso-origin'];
+        delete d['iso-destination'];
         delete d.year;
 
         movements.push(d);
