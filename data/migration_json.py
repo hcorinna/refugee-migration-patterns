@@ -3,7 +3,7 @@ import os
 import json
 
 csv_input = 'unhcr_time_series_normalized.csv'
-csv_output = '../Visualization/src/data/migrate.json'
+output = '../Visualization/src/data/migrate.json'
 
 # we can discuss if we want to use a slider for "type" to include IDP etc
 migration_filter = 'Refugees (incl. refugee-like situations)' 
@@ -17,7 +17,7 @@ data = [
 ]
 
 open(
-    file=csv_output,
+    file=output,
     mode='w+',
     encoding='utf-8'
 ).write(json.dumps(data))
