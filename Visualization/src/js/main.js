@@ -7,7 +7,7 @@ var color;
 var svg;
 var tooltip;
 var world;
-var country_features;
+var indices;
 var migration;
 
 /**
@@ -45,9 +45,9 @@ $(function() {
   // geoPath projection
   path = d3.geoPath().projection(projection);
 
-  //colors for population metrics
+  //colors for index metrics
   color = d3.scaleThreshold()
-      .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
+      .domain(["0", "0,2", "0,3", "0,4", "0,5", "0,6", "0,7", "0,8", "0,9", "1"])
       .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
 
   tooltip = d3.select("#map")
@@ -57,15 +57,15 @@ $(function() {
   // loading json stuffs
   d3.queue()
     .defer(d3.json, "src/data/50m.json")
-    .defer(d3.json, "src/data/population.json")
+    .defer(d3.json, "src/data/indices.json")
     .defer(d3.json,"src/data/migrate.json")
-    .await(function (error, world_data, population_data, migration_data) {
+    .await(function (error, world_data, indices_data, migration_data) {
         if (error) {
             console.error('Oh dear, something went wrong: ' + error);
         }
         else {
           world = world_data;
-          country_features = population_data;
+          indices = indices_data;
           migration = migration_data;
           drawMap();
         }
@@ -94,16 +94,19 @@ function updateMap() {
 
 function drawMap() {
     var features = topojson.feature(world, world.objects.countries).features;
-    var hdiById = {};
+    indicesByYear = {2006: {}, 2007: {}, 2008: {}, 2009: {}, 2010: {}, 2011: {}, 2012: {}, 2013: {}, 2014: {}, 2015: {}, 2016: {}};
 
-    country_features.forEach(function (d) {
-        hdiById[d.country] = {
-            total: +d.total,
-            // total: +d[year]
-        }
+    indices.forEach(function (d) {
+      indicesByYear[d.year][d.iso] = {
+          hdi_value: d['hdi_value'],
+          hdi_rank: d['hdi_rank'],
+          fgi_value: d['fgi_value'],
+          fgi_rank: d['fgi_rank'],
+          hfi_rank: d['hfi_rank']
+      }
     });
     features.forEach(function (d) {
-        d.details = hdiById[d.properties.name] ? hdiById[d.properties.name] : {};
+        d.details = indicesByYear[year][d.id] ? indicesByYear[year][d.id] : {};
     });
     migration_features = migrate(features, migration, year);
 
@@ -121,7 +124,7 @@ function drawMap() {
         })
         .attr("d", path)
         .style("fill", function (d) {
-            return d.details && d.details.total ? color(d.details.total) : undefined;
+            return d.details && d.details['hdi_value'] ? color(d.details['hdi_value']) : undefined;
         })
         .on('mouseover', function (d) {
             d3.select(this)
