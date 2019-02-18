@@ -312,6 +312,12 @@ return longest
 // tooltip stuff
 function showTooltip(d, event) {
     label = d.properties.name;
+    if (d.details['hdi_value'] && d.details['hdi_rank']) {
+      label += "<br>" + "HDI: " + d.details['hdi_value'] + " (" + d.details['hdi_rank'] + ")"
+    }
+    if (d.details['fgi_value'] && d.details['fgi_rank']) {
+      label += "<br>" + "FGI: " + d.details['fgi_value'] + " (" + d.details['fgi_rank'] + ")"
+    }
     var mouse = d3.mouse(svg.node())
                 .map( function(d) { return parseInt(d); } );
     tooltip.classed("hidden", false)
