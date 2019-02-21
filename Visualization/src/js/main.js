@@ -9,6 +9,7 @@ var tooltip;
 var world;
 var indices;
 var migration;
+var MARGIN;
 
 /**
  * Execute once page has been fully loaded.
@@ -35,11 +36,11 @@ $(function() {
   // year filter
   year = 2008;
   // migration volumn filter
-  threshold = 0.01;
+  threshold = 0.00025;
 
   // geoMercator projection
   projection = d3.geoMercator() //d3.geoOrthographic()
-      .scale(130)
+      .scale(150)
       .translate([width / 2, height / 1.5]);
 
   // geoPath projection
@@ -72,18 +73,28 @@ $(function() {
     });
 
     d3.select("#year-selector")
+    .property('value', year)
     .on("input", function() {
       d3.select("#selected-year").html(this.value);
       year = this.value;
       updateMap();
     });
+    d3.select("#selected-year").html(year);
 
     d3.select("#threshold-selector")
+    .property('value', threshold)
     .on("input", function() {
       d3.select("#selected-threshold").html(this.value);
       threshold = this.value;
       updateMap();
     });
+    d3.select("#selected-threshold").html(threshold);
+
+    // Analyses
+    MARGIN = {top: 20, right: 20, bottom: 20, left: 20};
+
+    drawHDIRefugeesPlot();
+
 });
 
 function updateMap() {
@@ -329,3 +340,54 @@ function selected() {
   d3.select('.selected').classed('selected', false);
   d3.select(this).classed('selected', true);
 };
+
+function getWidth(selector) {
+    return d3.select(selector).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
+}
+
+function getHeight(selector) {
+    return d3.select(selector).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+}
+
+function drawHDIRefugeesPlot() {
+  var width = getWidth("#hdi-refugees");
+  var height = getHeight("#hdi-refugees");
+
+  var hdiRefugees = d3.select("#hdi-refugees")
+      .append("g")
+      .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
+  var xScale = d3.scaleLinear()
+      .domain([0, 1])
+      .range([0, width]);
+  var yScale = d3.scaleLinear()
+      .domain([0, 1000000])
+      .range([height, 0]);
+  var xAxis = d3.axisBottom(xScale)
+      .ticks(5);
+  var yAxis = d3.axisLeft(yScale)
+      .ticks(5);
+
+  // x-axis
+  hdiRefugees.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "x axis-label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Human Development Index (HDI)");
+
+  // y-axis
+  hdiRefugees.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "y axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Number of Refugees");
+}
