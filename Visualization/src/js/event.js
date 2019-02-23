@@ -1,5 +1,4 @@
 var refresh_matrix = function(year){
-    console.log(year);
     $('#matrix_grid').empty();
     $('#matrix_legend').empty();
     d3.queue()
@@ -19,6 +18,13 @@ var refresh_matrix = function(year){
     });
 };
 
+var refresh_power = function(year){
+    console.log(year);
+    src = 'src/media/' + year + '_powerlaw.png';
+    $('#power_plot').attr('src', src);
+};
+
 var refresh_year = function(year){
     refresh_matrix(year);
+    refresh_power(year);
 };
