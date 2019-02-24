@@ -36,7 +36,7 @@ html, body
 .welcome {
   padding: 40px 40px 40px 40px;
   height: 100%;
-  background: url("/src/images/fancycrave-427217-unsplash.jpg") no-repeat center fixed;
+  background: url("../images/background.jpg") no-repeat center fixed;
   background-size: cover;
   color: #fffeff;
   position: relative;
