@@ -71,7 +71,7 @@ $(function() {
           migration = migration_data;
           createFeatures();
           drawMap();
-          drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Number of Refugees");
+          drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Refugees relative to population");
         }
     });
 
@@ -94,7 +94,7 @@ $(function() {
     d3.select("#selected-threshold").html(threshold);
 
     // Analyses
-    MARGIN = {top: 20, right: 20, bottom: 30, left: 80};
+    MARGIN = {top: 20, right: 20, bottom: 70, left: 80};
 
 });
 
@@ -363,17 +363,17 @@ function selected() {
   d3.select(this).classed('selected', true);
 };
 
-function getWidth(selector) {
-    return d3.select(selector).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
+function getPlotWidth() {
+    return d3.select(".carousel-inner").node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
 }
 
-function getHeight(selector) {
-    return d3.select(selector).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+function getPlotHeight() {
+    return d3.select(".carousel-inner").node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
 }
 
 function drawScatterPlot(id, x, y, xLabel, yLabel) {
-  var width = getWidth(id);
-  var height = getHeight(id);
+  var width = getPlotWidth();
+  var height = getPlotHeight();
 
   var plot = d3.select(id)
       .append("g")
