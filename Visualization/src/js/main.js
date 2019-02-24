@@ -15,8 +15,8 @@ var MARGIN = {top: 20, right: 120, bottom: 130, left: 80};
  * Execute once page has been fully loaded.
  */
 $(function() {
-  var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-      height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  var width = d3.select("#map").node().getBoundingClientRect().width,
+      height = d3.select("#map").node().getBoundingClientRect().height;
 
   svg = d3.select("#map")
       .append("svg")
@@ -40,7 +40,7 @@ $(function() {
 
   // geoMercator projection
   projection = d3.geoMercator() //d3.geoOrthographic()
-      .scale(150)
+      .scale(120)
       .translate([width / 2, height / 1.5]);
 
   // geoPath projection
