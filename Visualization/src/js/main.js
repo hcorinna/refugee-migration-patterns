@@ -65,8 +65,7 @@ $(function() {
           indices = country_features;
           migration = migration_data;
           createFeatures();
-          drawMap();
-          drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Refugees relative to population");
+          draw();
         }
     });
 
@@ -75,7 +74,7 @@ $(function() {
     .on("input", function() {
       d3.select("#selected-year").html(this.value);
       year = this.value;
-      updateMap();
+      update();
     });
     d3.select("#selected-year").html(year);
 
@@ -84,7 +83,7 @@ $(function() {
     .on("input", function() {
       d3.select("#selected-threshold").html(this.value);
       threshold = this.value;
-      updateMap();
+      update();
     });
     d3.select("#selected-threshold").html(threshold);
 
@@ -93,10 +92,16 @@ $(function() {
 
 });
 
-function updateMap() {
+function draw() {
+  updateFeatures();
+  drawMap();
+  drawPlots();
+}
+
+function update() {
   map.remove();
   d3.selectAll("g > *").remove();
-  drawMap();
+  draw();
 }
 
 function createFeatures() {
@@ -130,6 +135,9 @@ function createFeatures() {
         asylum_inflow: d['asylum_inflow']
     }
   });
+}
+
+function updateFeatures() {
   features.forEach(function (d) {
       d.details = indicesByYear[year][d.id] ? indicesByYear[year][d.id] : {};
   });
@@ -449,4 +457,8 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
             .style("stroke", "#e67e22");
         tooltipDot.classed("hidden", true);
       });
+}
+
+function drawPlots() {
+  drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Refugees relative to population");
 }
