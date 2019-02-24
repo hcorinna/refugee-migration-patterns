@@ -22,6 +22,10 @@ path {
   fill: #808080;
 }
 
-text.label {
-  font-size: 2em;
+[id*=scatter] > svg > g > text {
+  font-size: 1em;
+}
+
+.scatter_axis > .tick > text {
+  font-size: 1.5em;
 }

@@ -1,6 +1,4 @@
-d3.select("body").append("div").attr("class", "tip").style("display", "none");
-
-var year = 2009;
+var year = 2008;
 
 d3.queue()
 .defer(d3.json, "src/data/matrix.json")
@@ -25,9 +23,9 @@ var drawMatrix = function(data, cols){
     var grid = data2grid.grid(corr);
     var rows = d3.max(grid, function(d){ return d.row; });
 
-    var dim = d3.min([window.outerWidth/2 , window.outerHeight/2]);
+    var dim = d3.min([window.innerWidth/1.5 , window.innerHeight/1.5]);
 
-    var axis_magin = dim/5;
+    var axis_magin = dim/6;
 
     var margin = {top: axis_magin, bottom: 1, left: axis_magin, right: 1};
 
@@ -36,8 +34,9 @@ var drawMatrix = function(data, cols){
     var svg = d3.select("#matrix_grid").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .style("overflow", "visible")
         .append("g")
-        .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+        .attr("transform", "translate(" + axis_magin * 2 + ", " + axis_magin * 2 + ")");
 
     var padding = .1;
 
@@ -125,7 +124,7 @@ var drawMatrix = function(data, cols){
         .attr("width", width + margin.left + margin.right)
         .attr("height", legend_height + legend_top)
         .append("g")
-        .attr("transform", "translate(" + margin.left + ", " + legend_top + ")");
+        .attr("transform", "translate(" + axis_magin * 2 + ", " + legend_top + ")");
 
     var defs = legend_svg.append("defs");
 

@@ -34,9 +34,9 @@ var drawscatter = function(data, svg_css, x_field, y_field){
 
     var scatter_tooltip = d3.select("div.scatter_tooltip");
     
-    var dim_width = window.innerWidth/2,
-    dim_height = window.innerHeight/2,
-    margin = {top: dim_height/10, right: dim_width/10, bottom: dim_height/8, left: dim_width/10};
+    var dim_width = window.innerWidth/2.8,
+    dim_height = window.innerHeight/2.8,
+    margin = {top: dim_height/10, right: dim_width/10, bottom: dim_height/5, left: dim_width/10};
     width = dim_width - margin.left - margin.right,
     height = dim_height - margin.top - margin.bottom;
 
@@ -69,7 +69,7 @@ var drawscatter = function(data, svg_css, x_field, y_field){
         .call(xAxis);
 
     svg.append("text")             
-        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top) + ")")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.bottom) + ")")
         .style("text-anchor", "middle")
         .text(x_field);
 
