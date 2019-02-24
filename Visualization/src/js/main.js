@@ -71,7 +71,7 @@ $(function() {
           migration = migration_data;
           createFeatures();
           drawMap();
-          drawHDIRefugeesPlot();
+          drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Number of Refugees");
         }
     });
 
@@ -94,7 +94,7 @@ $(function() {
     d3.select("#selected-threshold").html(threshold);
 
     // Analyses
-    MARGIN = {top: 20, right: 20, bottom: 30, left: 70};
+    MARGIN = {top: 20, right: 20, bottom: 30, left: 80};
 
 });
 
@@ -371,30 +371,31 @@ function getHeight(selector) {
     return d3.select(selector).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
 }
 
-function drawHDIRefugeesPlot() {
-  var width = getWidth("#hdi-refugees");
-  var height = getHeight("#hdi-refugees");
+function drawScatterPlot(id, x, y, xLabel, yLabel) {
+  var width = getWidth(id);
+  var height = getHeight(id);
 
-  var hdiRefugees = d3.select("#hdi-refugees")
+  var plot = d3.select(id)
       .append("g")
       .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
+
+  var xValue = function(d) { return d.details[x];};
+  var yValue = function(d) { return d.details[y];};
+  var xMap = function(d) { return xScale(xValue(d));};
+  var yMap = function(d) { return yScale(yValue(d));};
   var xScale = d3.scaleLinear()
-      .domain([0, 1])
+      .domain([d3.min(features, xValue), d3.max(features, xValue)])
       .range([0, width]);
   var yScale = d3.scaleLinear()
-      .domain([0, 1000000])
+      .domain([d3.min(features, yValue), d3.max(features, yValue)])
       .range([height, 0]);
   var xAxis = d3.axisBottom(xScale)
       .ticks(5);
   var yAxis = d3.axisLeft(yScale)
       .ticks(5);
-  var xValue = function(d) { return d.details['hdi_value'];};
-  var yValue = function(d) { return d.details['outflow'];};
-  var xMap = function(d) { return xScale(xValue(d));};
-  var yMap = function(d) { return yScale(yValue(d));};
 
   // x-axis
-  hdiRefugees.append("g")
+  plot.append("g")
       .attr("class", "x axis-line")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
@@ -403,10 +404,10 @@ function drawHDIRefugeesPlot() {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Human Development Index (HDI)");
+      .text(xLabel);
 
   // y-axis
-  hdiRefugees.append("g")
+  plot.append("g")
       .attr("class", "y axis-line")
       .call(yAxis)
     .append("text")
@@ -415,13 +416,13 @@ function drawHDIRefugeesPlot() {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Number of Refugees");
+      .text(yLabel);
 
   var tooltipDot = d3.select("body").append("div")
     .attr("class", "tooltip-dot")
     .style("opacity", 0);
 
-  hdiRefugees.selectAll(".dot")
+  plot.selectAll(".dot")
       .data(features)
     .enter().append("circle")
       .attr("class", "dot")
