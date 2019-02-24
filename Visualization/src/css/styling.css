@@ -136,8 +136,13 @@ div.tooltip {
     }
 }
 .carousel-item {
-  padding: 20px 50px 30px 50px;
+  padding: 40px 50px 30px 50px;
   height: 100%;
+}
+
+.plot {
+  height: 100%;
+  width: 100%;
 }
 
 .carousel-control-next,

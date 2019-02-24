@@ -88,7 +88,7 @@ $(function() {
     d3.select("#selected-threshold").html(threshold);
 
     // Analyses
-    MARGIN = {top: 20, right: 120, bottom: 70, left: 50};
+    MARGIN = {top: 20, right: 120, bottom: 120, left: 50};
 
 });
 

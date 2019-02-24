@@ -80,25 +80,39 @@
 
           <div class="carousel-inner">
               <div class="carousel-item active">
-                <img class="d-block w-100" src="..." alt="summary slide">
+                <h3>Summary</h3>
+                <p>
+                  In our analysis of refugee migration patterns, we collected data and represented it as a network that you can see on the map. Countries are connected if a sufficiently high number of people flee from one country to another. You can change the threshold for "sufficiently high" with the threshold slider. Similarly, you can change the year you want to look at.
+                </p>
+                <p>
+                  We found few correlations in our network measures and indices. Surprisingly, we did not see a correlation between the share of refugees leaving a country relative to its population and the country's Human Development Index (HDI) and Fragile States Index. One might expect a correlation as these indices tell us something about life in different countries. A low HDI could be expected to lead to a higher number of refugees, but this does not appear to be the case. However, the network also does not fit a random graph model.
+                </p>
               </div>
               <div class="carousel-item">
+                <h3>Degree Distribution</h3>
                 <img class="d-block w-100" src="..." alt="Degree Distribution plots">
               </div>
               <div class="carousel-item">
+                <h3>PowerLaw</h3>
                 <img id="power_plot" class="d-block w-100" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
               </div>
               <div class="carousel-item">
-                  <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
+                <h3>Highest Number of Refugees: Top 5</h3>
+                <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
               </div>
               <div class="carousel-item">
-                  <img class="d-block w-100" src="..." alt="Eigenvector/indegree centrality correlation">
+                <h3>Eigenvector / Indegree Centrality Correlation</h3>
+                <img class="d-block w-100" src="..." alt="Eigenvector/indegree centrality correlation">
               </div>
               <div class="carousel-item">
-                  <div id="matrix_legend"></div>
-                  <div id="matrix_grid"></div>
+                <h3>Correlation Matrix</h3>
+                <div id="matrix_legend"></div>
+                <div id="matrix_grid"></div>
               </div>
-              <svg class="carousel-item" id="hdi-refugees"></svg>
+              <div class="carousel-item">
+                <h3>HDI / Refugees Relative to Population</h3>
+                <svg class="plot" id="hdi-refugees"></svg>
+              </div>
             </div>
         </div>
 
