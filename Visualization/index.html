@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="src/css/map.css">
     <link rel="stylesheet" type="text/css" href="src/css/matrix.css">
     <link rel="stylesheet" type="text/css" href="src/css/styling.css">
+    <link rel="stylesheet" type="text/css" href="src/css/scatter.css">
     <title>Refugee Migration Patterns</title>
 </head>
 <body>
@@ -64,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="analysis-column col-12 col-lg-5">
+    <div class="analysis-column col-12 col-lg-5" style="height: 150vh;">
 
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
 
@@ -78,7 +79,7 @@
               <li data-target="#carouselIndicators" data-slide-to="6"></li>
           </ol>
 
-          <div class="carousel-inner">
+          <div class="carousel-inner" style="overflow: visible;">
               <div class="carousel-item active">
                 <h3>Summary</h3>
                 <p>
@@ -95,21 +96,24 @@
 
                 </p>
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" style="max-width: 100%; overflow: scroll;">
                 <h3>Degree Distribution</h3>
-                <img class="d-block w-100" src="..." alt="Degree Distribution plots">
+                <img id="degree_plot" class="d-block w-100" src="src/media/2008_degree_distribution.png" alt="Degree Distribution plots" style="object-fit: contain">
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" style="max-width: 100%; overflow: scroll;">
                 <h3>PowerLaw</h3>
-                <img id="power_plot" class="d-block w-100" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
+                <img id="power_plot" class="d-block w-100" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees" style="object-fit: contain">
               </div>
               <div class="carousel-item">
                 <h3>Highest Number of Refugees: Top 5</h3>
                 <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" style="max-height: 70%; overflow: scroll;">
                 <h3>Eigenvector / Indegree Centrality Correlation</h3>
                 <img class="d-block w-100" src="..." alt="Eigenvector/indegree centrality correlation">
+                <div id="scatter_first" style="object-fit: contain"></div>
+                </br>
+                <div id="scatter_second" style="object-fit: contain"></div>
               </div>
               <div class="carousel-item">
                 <h3>Correlation Matrix</h3>
@@ -135,6 +139,9 @@
     </div>
   </div>
 </div>
+
+<div class='tip' style="display: none;"></div>
+<div class='scatter_tooltip' style="opacity: 0"></div>
 
 </body>
 </html>
