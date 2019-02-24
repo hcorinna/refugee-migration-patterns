@@ -6,7 +6,6 @@ var path;
 var color;
 var svg;
 var features;
-var tooltip;
 var world;
 var indices;
 var migration;
@@ -52,10 +51,6 @@ $(function() {
       .domain([0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
       .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
 
-  tooltip = d3.select("#map")
-          .append("div")
-          .attr("class", "tooltip hidden");
-
   // loading json stuffs
   d3.queue()
     .defer(d3.json, "src/data/50m.json")
@@ -94,7 +89,7 @@ $(function() {
     d3.select("#selected-threshold").html(threshold);
 
     // Analyses
-    MARGIN = {top: 20, right: 20, bottom: 70, left: 80};
+    MARGIN = {top: 20, right: 120, bottom: 70, left: 50};
 
 });
 
@@ -143,6 +138,10 @@ function createFeatures() {
 function drawMap() {
     migration_features = migrate(features, migration, year);
 
+    var tooltip = d3.select("#map")
+            .append("div")
+            .attr("class", "tooltip hidden");
+
     map = svg.append("g");
     // draw map
     map.append("g")
@@ -164,7 +163,15 @@ function drawMap() {
                 .style("stroke", "white")
                 .style("stroke-width", 1)
                 .style("cursor", "pointer");
-            showTooltip(d);
+
+            label = d.properties.name;
+            if (d.details['hdi_value'] && d.details['hdi_rank']) {
+              label += "<br>" + "HDI: " + d.details['hdi_value'] + " (" + d.details['hdi_rank'] + ")"
+            }
+            if (d.details['fgi_value'] && d.details['fgi_rank']) {
+              label += "<br>" + "FGI: " + d.details['fgi_value'] + " (" + d.details['fgi_rank'] + ")"
+            }
+            showTooltip(d, label, svg, tooltip);
         })
         .on('mouseout', function (d) {
             d3.select(this)
@@ -343,18 +350,11 @@ return longest
 };
 
 // tooltip stuff
-function showTooltip(d, event) {
-    label = d.properties.name;
-    if (d.details['hdi_value'] && d.details['hdi_rank']) {
-      label += "<br>" + "HDI: " + d.details['hdi_value'] + " (" + d.details['hdi_rank'] + ")"
-    }
-    if (d.details['fgi_value'] && d.details['fgi_rank']) {
-      label += "<br>" + "FGI: " + d.details['fgi_value'] + " (" + d.details['fgi_rank'] + ")"
-    }
-    var mouse = d3.mouse(svg.node())
+function showTooltip(d, label, element, tooltipElement) {
+    var mouse = d3.mouse(element.node())
                 .map( function(d) { return parseInt(d); } );
-    tooltip.classed("hidden", false)
-            .attr("style", "left:"+(mouse[0]/1.5)+"px;top:"+(mouse[1]/1.5)+"px")
+    tooltipElement.classed("hidden", false)
+            .attr("style", "left:"+(mouse[0]/1.5)+"px;top:"+(mouse[1]/1.7)+"px")
             .html(label);
 };
 
@@ -383,11 +383,17 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
   var yValue = function(d) { return d.details[y];};
   var xMap = function(d) { return xScale(xValue(d));};
   var yMap = function(d) { return yScale(yValue(d));};
+  var xMin = d3.min(features, xValue),
+      xMax = d3.max(features, xValue),
+      xRange = xMax - xMin;
+  var yMin = d3.min(features, yValue),
+      yMax = d3.max(features, yValue),
+      yRange = yMax - yMin;
   var xScale = d3.scaleLinear()
-      .domain([d3.min(features, xValue), d3.max(features, xValue)])
+      .domain([xMin - xRange/10, xMax + xRange/8])
       .range([0, width]);
   var yScale = d3.scaleLinear()
-      .domain([d3.min(features, yValue), d3.max(features, yValue)])
+      .domain([yMin - yRange/10, yMax + yRange/8])
       .range([height, 0]);
   var xAxis = d3.axisBottom(xScale)
       .ticks(5);
@@ -418,9 +424,9 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       .style("text-anchor", "end")
       .text(yLabel);
 
-  var tooltipDot = d3.select("body").append("div")
-    .attr("class", "tooltip-dot")
-    .style("opacity", 0);
+  var tooltipDot = d3.select(".carousel-inner")
+    .append("div")
+    .attr("class", "tooltip hidden");
 
   plot.selectAll(".dot")
       .data(features)
@@ -434,19 +440,13 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
         d3.select(this)
             .style("stroke", "#c0392b")
             .style("cursor", "pointer");
-        tooltipDot.transition()
-             .duration(200)
-             .style("opacity", .9);
-        tooltipDot.html(d.properties.name + "<br/> (" + xValue(d)
-          + ", " + yValue(d) + ")")
-             .style("left", (d3.event.pageX + 5) + "px")
-             .style("top", (d3.event.pageY - 28) + "px");
+
+        var label = d.properties.name + "<br/> (" + xValue(d) + ", " + yValue(d) + ")";
+        showTooltip(d, label, d3.select(id), tooltipDot);
       })
       .on("mouseout", function(d) {
         d3.select(this)
             .style("stroke", "#e67e22");
-        tooltipDot.transition()
-             .duration(500)
-             .style("opacity", 0);
+        tooltipDot.classed("hidden", true);
       });
 }

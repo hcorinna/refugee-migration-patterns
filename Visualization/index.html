@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Analysis of refugee migration patterns to create useful insights for aid organizations.">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
+    <script src="https://unpkg.com/jeezy@1.12.11/lib/jeezy.min.js"></script>
+    <script src="https://unpkg.com/data2grid@1.0.0/build/data2grid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.5/chroma.min.js"></script>
+    <script src="src/js/main.js"></script>
+    <script src="src/js/matrix.js"></script>
+    <script src="src/js/event.js"></script>
+    <script src="src/js/hdi-refugees.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="src/css/map.css">
     <link rel="stylesheet" type="text/css" href="src/css/matrix.css">
     <link rel="stylesheet" type="text/css" href="src/css/styling.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Refugee Migration Patterns</title>
 </head>
 <body>
@@ -40,83 +53,67 @@
   <div class="row">
     <div class="map-column col-12 col-lg-7">
       <div id="map"></div>
-      <div class="year-selection">
-        <label for="year-selector"><b>Year:</b>&nbsp;</label><span id="selected-year"></span>
-        <input type="range" class="custom-range" min="2008" max="2016" id="year-selector" onchange="refresh_year(this.value)">
-      </div>
-      <div class="threshold-selection">
-        <label for="threshold-selector"><b>Threshold:</b>&nbsp;</label><span id="selected-threshold"></span>
-        <input type="range" class="custom-range" min="0" max="0.0005" step="0.00005" id="threshold-selector">
+      <div id="slider">
+        <div class="year-selection">
+          <label for="year-selector"><b>Year:</b>&nbsp;</label><span id="selected-year"></span>
+          <input type="range" class="custom-range" min="2008" max="2016" id="year-selector" onchange="refresh_year(this.value)">
+        </div>
+        <div class="threshold-selection">
+          <label for="threshold-selector"><b>Threshold:</b>&nbsp;</label><span id="selected-threshold"></span>
+          <input type="range" class="custom-range" min="0" max="0.0005" step="0.00005" id="threshold-selector">
+        </div>
       </div>
     </div>
     <div class="analysis-column col-12 col-lg-5">
 
-        <div id="carouselIndicators" class="carousel slide" data-ride="carousel" style="height:100%" data-interval="false">
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
 
-          <div class="vertical" style="height:20%">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselIndicators" data-slide-to="2"></li>
-                <li data-target="#carouselIndicators" data-slide-to="3"></li>
-                <li data-target="#carouselIndicators" data-slide-to="4"></li>
-                <li data-target="#carouselIndicators" data-slide-to="5"></li>
-                <li data-target="#carouselIndicators" data-slide-to="6"></li>
-            </ol>
-            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
+          <ol class="carousel-indicators">
+              <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselIndicators" data-slide-to="2"></li>
+              <li data-target="#carouselIndicators" data-slide-to="3"></li>
+              <li data-target="#carouselIndicators" data-slide-to="4"></li>
+              <li data-target="#carouselIndicators" data-slide-to="5"></li>
+              <li data-target="#carouselIndicators" data-slide-to="6"></li>
+          </ol>
 
-          <div class="vertical" style="height:80%">
-              <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="d-block w-100" src="..." alt="summary slide">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="d-block w-100" src="..." alt="Degree Distribution plots">
-                  </div>
-                  <div class="carousel-item">
-                    <img id="power_plot" class="d-block w-100" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
-                    <img class="d-block w-100" src="..." alt="Power Law plots">
-                  </div>
-                  <div class="carousel-item">
-                      <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
-                  </div>
-                  <div class="carousel-item">
-                      <img class="d-block w-100" src="..." alt="Eigenvector/indegree centrality correlation">
-                  </div>
-                  <div class="carousel-item">
-                      <img class="d-block w-100" src="..." alt="Correlation matrix">
-                      <div id="matrix_legend"></div>
-                      <div id="matrix_grid"></div>
-                  </div>
-                  <svg class="carousel-item" id="hdi-refugees"></svg>
-
+          <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="d-block w-100" src="..." alt="summary slide">
               </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="..." alt="Degree Distribution plots">
+              </div>
+              <div class="carousel-item">
+                <img id="power_plot" class="d-block w-100" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
+              </div>
+              <div class="carousel-item">
+                  <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
+              </div>
+              <div class="carousel-item">
+                  <img class="d-block w-100" src="..." alt="Eigenvector/indegree centrality correlation">
+              </div>
+              <div class="carousel-item">
+                  <div id="matrix_legend"></div>
+                  <div id="matrix_grid"></div>
+              </div>
+              <svg class="carousel-item" id="hdi-refugees"></svg>
             </div>
         </div>
+
+        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
 
     </div>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
-<script src="https://unpkg.com/jeezy@1.12.11/lib/jeezy.min.js"></script>
-<script src="https://unpkg.com/data2grid@1.0.0/build/data2grid.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.5/chroma.min.js"></script>
-<script src="src/js/main.js"></script>
-<script src="src/js/matrix.js"></script>
-<script src="src/js/event.js"></script>
-<script src="src/js/hdi-refugees.js"></script>
 </body>
 </html>
