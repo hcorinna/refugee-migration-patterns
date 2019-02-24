@@ -442,11 +442,11 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
     .append("div")
     .attr("class", "tooltip hidden");
 
-  plot.selectAll(".dot")
+  plot.selectAll(".scatter-dot")
       .data(features)
     .enter().append("circle")
     .filter(function(d) { return xValue(d) && yValue(d) })
-      .attr("class", "dot")
+      .attr("class", "scatter-dot")
       .attr("r", 3.5)
       .attr("cx", xMap)
       .attr("cy", yMap)

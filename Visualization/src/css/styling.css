@@ -178,7 +178,7 @@ div.tooltip {
   shape-rendering: crispEdges;
 }
 
-.dot {
+.scatter-dot {
   stroke: #e67e22;
 }
 
