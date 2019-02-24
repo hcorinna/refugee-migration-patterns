@@ -9,7 +9,7 @@ var features;
 var world;
 var indices;
 var migration;
-var MARGIN = {top: 20, right: 120, bottom: 120, left: 50};
+var MARGIN = {top: 20, right: 120, bottom: 120, left: 80};
 
 /**
  * Execute once page has been fully loaded.
