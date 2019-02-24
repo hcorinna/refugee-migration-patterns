@@ -422,7 +422,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
     .append("text")
       .attr("class", "x axis-label")
       .attr("x", width)
-      .attr("y", -6)
+      .attr("y", -10)
       .style("text-anchor", "end")
       .text(xLabel);
 

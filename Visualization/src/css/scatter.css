@@ -1,0 +1,31 @@
+.scatter_axis path,
+.scatter_axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: auto;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.scatter_tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+
+path {
+  stroke: white;
+  stroke-width: 0.25px;
+  fill: #808080;
+}
+
+[id*=scatter] > svg > g > text {
+  font-size: 1em;
+}
+
+.scatter_axis > .tick > text {
+  font-size: 1.5em;
+}
