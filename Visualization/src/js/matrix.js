@@ -23,7 +23,7 @@ var drawMatrix = function(data, cols){
     var grid = data2grid.grid(corr);
     var rows = d3.max(grid, function(d){ return d.row; });
 
-    var dim = d3.min([window.innerWidth/1.5 , window.innerHeight/1.5]);
+    var dim = d3.min([window.innerWidth/2 , window.innerHeight/2]);
 
     var axis_magin = dim/6;
 

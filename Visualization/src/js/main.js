@@ -9,7 +9,7 @@ var features;
 var world;
 var indices;
 var migration;
-var MARGIN = {top: 20, right: 120, bottom: 120, left: 80};
+var MARGIN = {top: 20, right: 120, bottom: 120, left: 50};
 
 /**
  * Execute once page has been fully loaded.
@@ -413,7 +413,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
     .append("text")
       .attr("class", "x axis-label")
       .attr("x", width)
-      .attr("y", -6)
+      .attr("y", -10)
       .style("text-anchor", "end")
       .text(xLabel);
 

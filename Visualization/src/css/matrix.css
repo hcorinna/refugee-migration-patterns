@@ -1,39 +1,44 @@
 rect.selected {
-    stroke: #000;
-    stroke-width: 2px;
-  }
-  .axis .domain {
-    display: none;
-  }
-  .axis .tick text.selected {
-    font-weight: bold;
-    font-size: 1.2em;
-    fill: #47ff63;
-  }
-  .axis .tick line.selected {
-    stroke: #47ff63;  
-  }
-  text {
-    font-size: 0.5em;
-    display: inline-block;
-    word-break: break-word;
-  }
-  .x.axis>.tick>text {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    text-anchor: end;
+  stroke: #000;
+  stroke-width: 2px;
+}
 
-  }
-  .tip {
-    position: absolute;
-    font-size: .8em;
-    text-align: center;
-    text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
-  }    
+.axis .domain {
+  display: none;
+}
 
-  #matrix_legend {
-    margin-bottom: 10px;
-  }
-  #matrix_legend text {
-    font-size: .8em;
-  }
+.axis .tick text.selected {
+  font-weight: bold;
+  font-size: 1.2em;
+  fill: #47ff63;
+}
+
+.axis .tick line.selected {
+  stroke: #47ff63;  
+}
+
+text {
+  font-size: 1em;
+  overflow: visible; 
+}
+
+.x.axis>.tick>text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-anchor: end;
+}
+
+.tip {
+  position: absolute;
+  font-size: .8em;
+  text-align: center;
+  text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
+}    
+
+#matrix_legend {
+  margin-bottom: 10px;
+}
+
+#matrix_legend text {
+  font-size: .8em;
+}
