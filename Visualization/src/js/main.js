@@ -355,11 +355,11 @@ return longest
 };
 
 // tooltip stuff
-function showTooltip(d, label, element, tooltipElement) {
+function showTooltip(d, label, element, tooltipElement, offset_xy = [1,1]) {
     var mouse = d3.mouse(element.node())
                 .map( function(d) { return parseInt(d); } );
     tooltipElement.classed("hidden", false)
-            .attr("style", "left:"+(mouse[0]/1.5)+"px;top:"+(mouse[1]/1.7)+"px")
+            .attr("style", "left:"+(mouse[0]/1.5*offset_xy[0])+"px;top:"+(mouse[1]/1.7*offset_xy[1])+"px")
             .html(label);
 };
 
@@ -457,7 +457,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
             .style("cursor", "pointer");
 
         var label = d.properties.name + "<br/> (" + xValue(d) + ", " + yValue(d) + ")";
-        showTooltip(d, label, d3.select(id), tooltipDot);
+        showTooltip(d, label, d3.select(id), tooltipDot, [1,2]);
       })
       .on("mouseout", function(d) {
         d3.select(this)

@@ -123,8 +123,9 @@ var drawMatrix = function(data, cols){
     var legend_svg = d3.select("#matrix_legend").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", legend_height + legend_top)
+        .style("overflow", "visible")
         .append("g")
-        .attr("transform", "translate(" + axis_magin * 2 + ", " + legend_top + ")");
+        .attr("transform", "translate(" + axis_magin * 2 + ", " + legend_top * 2 + ")");
 
     var defs = legend_svg.append("defs");
 
