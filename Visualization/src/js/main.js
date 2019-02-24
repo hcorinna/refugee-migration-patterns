@@ -9,7 +9,7 @@ var features;
 var world;
 var indices;
 var migration;
-var MARGIN;
+var MARGIN = {top: 20, right: 120, bottom: 120, left: 50};
 
 /**
  * Execute once page has been fully loaded.
@@ -86,9 +86,6 @@ $(function() {
       update();
     });
     d3.select("#selected-threshold").html(threshold);
-
-    // Analyses
-    MARGIN = {top: 20, right: 120, bottom: 120, left: 50};
 
 });
 
@@ -439,6 +436,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
   plot.selectAll(".dot")
       .data(features)
     .enter().append("circle")
+    .filter(function(d) { return xValue(d) && yValue(d) })
       .attr("class", "dot")
       .attr("r", 3.5)
       .attr("cx", xMap)
@@ -460,5 +458,5 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
 }
 
 function drawPlots() {
-  drawScatterPlot("#hdi-refugees", "hdi_value", "share", "Human Development Index (HDI)", "Refugees relative to population");
+  drawScatterPlot("#hdi-refugees", "hdi_value", "outflow", "Human Development Index (HDI)", "Number of Refugees");
 }
