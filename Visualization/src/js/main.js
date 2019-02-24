@@ -9,7 +9,7 @@ var features;
 var world;
 var indices;
 var migration;
-var MARGIN = {top: 20, right: 120, bottom: 120, left: 80};
+var MARGIN = {top: 20, right: 120, bottom: 130, left: 80};
 
 /**
  * Execute once page has been fully loaded.
@@ -385,7 +385,16 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
 
   var xValue = function(d) { return d.details[x];};
-  var yValue = function(d) { return d.details[y];};
+  var yValue = function(d) {
+    if (Array.isArray(y)) {
+      var sum = 0;
+      for (var i = 0; i < y.length; i++) {
+        sum += d.details[y[i]];
+      }
+      return sum;
+    }
+    return d.details[y];
+  };
   var xMap = function(d) { return xScale(xValue(d));};
   var yMap = function(d) { return yScale(yValue(d));};
   var xMin = d3.min(features, xValue),
@@ -458,5 +467,10 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
 }
 
 function drawPlots() {
-  drawScatterPlot("#hdi-refugees", "hdi_value", "outflow", "Human Development Index (HDI)", "Number of Refugees");
+  drawScatterPlot("#hdi-refugees-out", "hdi_value", "outflow", "Human Development Index (HDI)", "Number of Refugees");
+  drawScatterPlot("#hdi-refugees-in", "hdi_value", "inflow", "Human Development Index (HDI)", "Number of Refugees");
+  drawScatterPlot("#hdi-asylum-out", "hdi_value", "asylum_outflow", "Human Development Index (HDI)", "Number of Asylum-Seekers");
+  drawScatterPlot("#hdi-asylum-in", "hdi_value", "asylum_inflow", "Human Development Index (HDI)", "Number of Asylum-Seekers");
+  drawScatterPlot("#hdi-asylum-refugees-out", "hdi_value", ["asylum_outflow", "outflow"], "Human Development Index (HDI)", "Number of Asylum-Seekers + Refugees");
+  drawScatterPlot("#hdi-asylum-refugees-in", "hdi_value", ["asylum_inflow", "inflow"], "Human Development Index (HDI)", "Number of Asylum-Seekers + Refugees");
 }
