@@ -9,12 +9,21 @@ var features;
 var world;
 var indices;
 var migration;
+var tooltip, tooltipDot;
 var MARGIN = {top: 20, right: 120, bottom: 130, left: 80};
 
 /**
  * Execute once page has been fully loaded.
  */
 $(function() {
+  tooltip = d3.select("#map")
+          .append("div")
+          .attr("class", "tooltip hidden");
+
+  tooltipDot = d3.select(".carousel-inner")
+    .append("div")
+    .attr("class", "tooltip hidden");
+
   var width = d3.select("#map").node().getBoundingClientRect().width,
       height = d3.select("#map").node().getBoundingClientRect().height;
 
@@ -98,6 +107,8 @@ function draw() {
 function update() {
   map.remove();
   d3.selectAll("g > *").remove();
+  tooltip.classed("hidden", true);
+  tooltipDot.classed("hidden", true);
   draw();
 }
 
@@ -142,10 +153,6 @@ function updateFeatures() {
 
 function drawMap() {
     migration_features = migrate(features, migration, year);
-
-    var tooltip = d3.select("#map")
-            .append("div")
-            .attr("class", "tooltip hidden");
 
     map = svg.append("g");
     // draw map
@@ -373,7 +380,7 @@ function getPlotWidth() {
 }
 
 function getPlotHeight() {
-    return d3.select(".carousel-inner").node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+    return d3.select(".carousel-inner").node().getBoundingClientRect().height / 1.5 - MARGIN.top - MARGIN.bottom;
 }
 
 function drawScatterPlot(id, x, y, xLabel, yLabel) {
@@ -437,10 +444,6 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text(yLabel);
-
-  var tooltipDot = d3.select(".carousel-inner")
-    .append("div")
-    .attr("class", "tooltip hidden");
 
   plot.selectAll(".scatter-dot")
       .data(features)
