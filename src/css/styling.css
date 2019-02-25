@@ -191,6 +191,18 @@ div.tooltip {
   font-size: 1.4em;
 }
 
+.footer {
+  padding: 5px;
+  color: #000;
+  font-size: 12px;
+}
+
+.footer a:link {
+  color: #22a6b3;
+}
+.footer a:visited {
+  color: #22a6b3;
+}
 
 .icon-scroll,
 .icon-scroll:before {

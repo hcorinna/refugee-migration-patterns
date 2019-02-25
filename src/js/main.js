@@ -25,8 +25,8 @@ $(function() {
     .append("div")
     .attr("class", "tooltip hidden");
 
-    plotWidth = getPlotWidth();
-    plotHeight = getPlotHeight();
+  plotWidth = getPlotWidth();
+  plotHeight = getPlotHeight();
 
   var width = d3.select("#map").node().getBoundingClientRect().width,
       height = d3.select("#map").node().getBoundingClientRect().height;
@@ -99,7 +99,6 @@ $(function() {
       update();
     });
     d3.select("#selected-threshold").html(threshold);
-
 });
 
 function draw() {
