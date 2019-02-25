@@ -108,20 +108,33 @@
               </div>
               <div class="carousel-item">
                 <h3>Degree Distribution</h3>
+                <p>
+                  The degree distribution shows the probabilty with which a randomly picked country has a specific indegree (outdegree).
+                  As degrees are not continuous, they are binned.
+                </p>
                 <img id="degree_plot" class="d-block w-100" src="src/media/2008_degree_distribution.png" alt="Degree Distribution plots" style="object-fit: contain">
               </div>
               <div class="carousel-item">
-                <h3>PowerLaw</h3>
+                <h3>Power Law</h3>
+                <p>
+                  The plot shows us the probability with which a chosen country has more than a specific number x refugees coming in (leaving). A power law distribution would mean that the y-value changes proportional to the x-value. By using the logarithmic values on both, we should get a straight line. This is not the case here as you can see in the plot.
+                </p>
                 <img id="power_plot" class="d-block w-100 contain" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
               </div>
               <div class="carousel-item">
                 <h4>Eigenvector / Closeness Centrality Correlation</h4>
+                <p>
+                  There is a visible correlation between the measures eigenvector centrality and closeness centrality. This is not surprising as both are centrality measures.
+                </p>
                 <div id="scatter_first" class="contain"></div>
                 </br>
                 <div id="scatter_second" class="contain"></div>
               </div>
               <div class="carousel-item" style="overflow: visible;">
                 <h4>Correlation Matrix</h4>
+                <p>
+                  The correlation matrix allows you to see between which measures there is a positive or negative correlation.
+                </p>
                 <div id="matrix_legend"></div>
                 </br>
                 </br>
@@ -130,18 +143,30 @@
 
               <div class="carousel-item">
                 <h4>HDI - Indegree Centrality</h4>
+                <p>
+                  As we can see the HDI correlates with the indegree centrality. As the HDI measures long-term development of countries, it is not surprising to see that countries with a high HDI value get refugees from a lot of different countries.
+                </p>
                 <svg class="plot" id="hdi-indegree-centrality"></svg>
               </div>
               <div class="carousel-item">
                 <h4>FSI - Indegree Centrality</h4>
+                <p>
+                  Similarly to the HDI, it is not surprising that stable countries, i.e. countries with a low Fragile States Index, host refugees from many different countries.
+                </p>
                 <svg class="plot" id="fgi-indegree-centrality"></svg>
               </div>
               <div class="carousel-item">
                 <h4>HDI - Outdegree Centrality</h4>
+                <p>
+                  One might expect a similar correlation between HDI and outdegree centrality. HDI, however, mostly measures long-term development, e.g. the life expectancy. Short-term developments such as the outbreak of a war are not necessarily visible in the HDI which explains large numbers of refugees for countries with fairly high HDI values.
+                </p>
                 <svg class="plot" id="hdi-outdegree-centrality"></svg>
               </div>
               <div class="carousel-item">
                 <h4>FSI - Outdegree Centrality</h4>
+                <p>
+                  The FSI takes questions specific to refugees and IDPs into account, so that we can also see a correlation when we look at the outdegree.
+                </p>
                 <svg class="plot" id="fgi-outdegree-centrality"></svg>
               </div>
 

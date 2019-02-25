@@ -459,7 +459,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
             .style("stroke", "#c0392b")
             .style("cursor", "pointer");
 
-        var label = d.properties.name + "<br/> (" + xValue(d) + ", " + yValue(d) + ")";
+        var label = d.properties.name + "<br/> (x: " + xValue(d) + ", y: " + yValue(d) + ")";
         showTooltip(d, label, d3.select(id), tooltipDot, [1,2]);
       })
       .on("mouseout", function(d) {
