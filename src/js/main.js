@@ -366,7 +366,7 @@ function showTooltip(d, label, element, tooltipElement, offset_xy = [1,1]) {
     var mouse = d3.mouse(element.node())
                 .map( function(d) { return parseInt(d); } );
     tooltipElement.classed("hidden", false)
-            .attr("style", "left:"+(mouse[0]/1.5*offset_xy[0])+"px;top:"+(mouse[1]/1.7*offset_xy[1])+"px")
+            .attr("style", "left:"+(mouse[0]+offset_xy[0])+"px;top:"+(mouse[1]+offset_xy[1])+"px")
             .html(label);
 };
 
@@ -483,4 +483,6 @@ function drawPlots() {
   drawScatterPlot("#hdi-indegree-centrality", "hdi_value", "indegree_centrality", hdi_label, "Indegree Centrality");
   drawScatterPlot("#fgi-outdegree-centrality", "fgi_value", "outdegree_centrality", fgi_label, "Outdegree Centrality");
   drawScatterPlot("#fgi-indegree-centrality", "fgi_value", "indegree_centrality", fgi_label, "Indegree Centrality");
+
+  drawScatterPlot("#eigenvector-closeness-centrality", "eigenvector_centrality", "closeness_centrality", "Eigenvector", "Closeness Centrality");
 }
