@@ -11,6 +11,7 @@ var indices;
 var migration;
 var tooltip, tooltipDot;
 var MARGIN = {top: 20, right: 120, bottom: 130, left: 80};
+var plotWidth, plotHeight;
 
 /**
  * Execute once page has been fully loaded.
@@ -23,6 +24,9 @@ $(function() {
   tooltipDot = d3.select(".carousel-inner")
     .append("div")
     .attr("class", "tooltip hidden");
+
+    plotWidth = getPlotWidth();
+    plotHeight = getPlotHeight();
 
   var width = d3.select("#map").node().getBoundingClientRect().width,
       height = d3.select("#map").node().getBoundingClientRect().height;
@@ -375,18 +379,15 @@ function selected() {
   d3.select(this).classed('selected', true);
 };
 
-function getPlotWidth() {
+function getPlotWidth(selector) {
     return d3.select(".carousel-inner").node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
 }
 
-function getPlotHeight() {
+function getPlotHeight(selector) {
     return d3.select(".carousel-inner").node().getBoundingClientRect().height / 1.5 - MARGIN.top - MARGIN.bottom;
 }
 
 function drawScatterPlot(id, x, y, xLabel, yLabel) {
-  var width = getPlotWidth();
-  var height = getPlotHeight();
-
   var plot = d3.select(id)
       .append("g")
       .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
@@ -412,10 +413,10 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       yRange = yMax - yMin;
   var xScale = d3.scaleLinear()
       .domain([xMin - xRange/10, xMax + xRange/8])
-      .range([0, width]);
+      .range([0, plotWidth]);
   var yScale = d3.scaleLinear()
       .domain([yMin - yRange/10, yMax + yRange/8])
-      .range([height, 0]);
+      .range([plotHeight, 0]);
   var xAxis = d3.axisBottom(xScale)
       .ticks(5);
   var yAxis = d3.axisLeft(yScale)
@@ -424,11 +425,11 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
   // x-axis
   plot.append("g")
       .attr("class", "x axis-line")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + plotHeight + ")")
       .call(xAxis)
     .append("text")
       .attr("class", "x axis-label")
-      .attr("x", width)
+      .attr("x", plotWidth)
       .attr("y", -10)
       .style("text-anchor", "end")
       .text(xLabel);
