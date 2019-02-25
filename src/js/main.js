@@ -61,8 +61,8 @@ $(function() {
 
   //colors for index metrics
   color = d3.scaleThreshold()
-      .domain([0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
-      .range(["#a29bfe", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
+      .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 110, 120])
+      .range(["#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722"]);
 
   // loading json stuffs
   d3.queue()
@@ -172,7 +172,7 @@ function drawMap() {
         })
         .attr("d", path)
         .style("fill", function (d) {
-            return d.details && d.details['hdi_value'] ? color(d.details['hdi_value']) : undefined;
+            return d.details && d.details['fgi_value'] ? color(d.details['fgi_value']) : undefined;
         })
         .on('mouseover', function (d) {
             d3.select(this)
