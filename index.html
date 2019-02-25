@@ -39,6 +39,7 @@
         </p>
         <p>
           This project analyzes data on migration patterns of persons of concern. Our aim is to create new insights that are useful for aid organizations and policy makers alike.
+          If not otherwise specified, the analyses show the movement of refugees based on <a href="http://popstats.unhcr.org/en/time_series">UNHCR data</a>.
         </p>
         <p>
           The project is part of the <a href="https://courses.helsinki.fi/en/data16001/124845659">"Network Analysis"</a> course of the University of Helsinki.<br>
@@ -82,6 +83,9 @@
               <li data-target="#carouselIndicators" data-slide-to="9"></li>
               <li data-target="#carouselIndicators" data-slide-to="10"></li>
               <li data-target="#carouselIndicators" data-slide-to="11"></li>
+              <li data-target="#carouselIndicators" data-slide-to="12"></li>
+              <li data-target="#carouselIndicators" data-slide-to="13"></li>
+              <li data-target="#carouselIndicators" data-slide-to="14"></li>
           </ol>
 
           <div class="carousel-inner">
@@ -110,10 +114,6 @@
                 <img id="power_plot" class="d-block w-100 contain" src="src/media/2008_powerlaw.png" alt="Powerlaw Plots for Number of Refugees">
               </div>
               <div class="carousel-item">
-                <h4>Highest Number of Refugees: Top 5</h4>
-                <img class="d-block w-100" src="..." alt="Top 5 in/out countries over time">
-              </div>
-              <div class="carousel-item">
                 <h4>Eigenvector / Closeness Centrality Correlation</h4>
                 <div id="scatter_first" class="contain"></div>
                 </br>
@@ -126,28 +126,46 @@
                 </br>
                 <div id="matrix_grid"></div>
               </div>
+
               <div class="carousel-item">
-                <h4>HDI / Number of Refugees (Out)</h4>
+                <h4>HDI - Indegree Centrality</h4>
+                <svg class="plot" id="hdi-indegree-centrality"></svg>
+              </div>
+              <div class="carousel-item">
+                <h4>FSI - Indegree Centrality</h4>
+                <svg class="plot" id="fgi-indegree-centrality"></svg>
+              </div>
+              <div class="carousel-item">
+                <h4>HDI - Outdegree Centrality</h4>
+                <svg class="plot" id="hdi-outdegree-centrality"></svg>
+              </div>
+              <div class="carousel-item">
+                <h4>FSI - Outdegree Centrality</h4>
+                <svg class="plot" id="fgi-outdegree-centrality"></svg>
+              </div>
+
+              <div class="carousel-item">
+                <h4>HDI - Number of Refugees (Out)</h4>
                 <svg class="plot" id="hdi-refugees-out"></svg>
               </div>
               <div class="carousel-item">
-                <h4>HDI / Number of Asylum-Seekers (Out)</h4>
+                <h4>HDI - Number of Asylum-Seekers (Out)</h4>
                 <svg class="plot" id="hdi-asylum-out"></svg>
               </div>
               <div class="carousel-item">
-                <h4>HDI / Number of Asylum-Seekers + Refugees (Out)</h4>
+                <h4>HDI - Number of Asylum-Seekers + Refugees (Out)</h4>
                 <svg class="plot" id="hdi-asylum-refugees-out"></svg>
               </div>
               <div class="carousel-item">
-                <h4>HDI / Number of Refugees (In)</h4>
+                <h4>HDI - Number of Refugees (In)</h4>
                 <svg class="plot" id="hdi-refugees-in"></svg>
               </div>
               <div class="carousel-item">
-                <h4>HDI / Number of Asylum-Seekers (In)</h4>
+                <h4>HDI - Number of Asylum-Seekers (In)</h4>
                 <svg class="plot" id="hdi-asylum-in"></svg>
               </div>
               <div class="carousel-item">
-                <h4>HDI / Number of Asylum-Seekers + Refugees (In)</h4>
+                <h4>HDI - Number of Asylum-Seekers + Refugees (In)</h4>
                 <svg class="plot" id="hdi-asylum-refugees-in"></svg>
               </div>
             </div>

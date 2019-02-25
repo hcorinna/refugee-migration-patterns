@@ -470,10 +470,17 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
 }
 
 function drawPlots() {
-  drawScatterPlot("#hdi-refugees-out", "hdi_value", "outflow", "Human Development Index (HDI)", "Number of Refugees");
-  drawScatterPlot("#hdi-refugees-in", "hdi_value", "inflow", "Human Development Index (HDI)", "Number of Refugees");
-  drawScatterPlot("#hdi-asylum-out", "hdi_value", "asylum_outflow", "Human Development Index (HDI)", "Number of Asylum-Seekers");
-  drawScatterPlot("#hdi-asylum-in", "hdi_value", "asylum_inflow", "Human Development Index (HDI)", "Number of Asylum-Seekers");
-  drawScatterPlot("#hdi-asylum-refugees-out", "hdi_value", ["asylum_outflow", "outflow"], "Human Development Index (HDI)", "Number of Asylum-Seekers + Refugees");
-  drawScatterPlot("#hdi-asylum-refugees-in", "hdi_value", ["asylum_inflow", "inflow"], "Human Development Index (HDI)", "Number of Asylum-Seekers + Refugees");
+  var hdi_label = "Human Development Index (HDI)";
+  var fgi_label = "Fragile States Index (FSI)";
+  drawScatterPlot("#hdi-refugees-out", "hdi_value", "outflow", hdi_label, "Number of Refugees");
+  drawScatterPlot("#hdi-refugees-in", "hdi_value", "inflow", hdi_label, "Number of Refugees");
+  drawScatterPlot("#hdi-asylum-out", "hdi_value", "asylum_outflow", hdi_label, "Number of Asylum-Seekers");
+  drawScatterPlot("#hdi-asylum-in", "hdi_value", "asylum_inflow", hdi_label, "Number of Asylum-Seekers");
+  drawScatterPlot("#hdi-asylum-refugees-out", "hdi_value", ["asylum_outflow", "outflow"], hdi_label, "Number of Asylum-Seekers + Refugees");
+  drawScatterPlot("#hdi-asylum-refugees-in", "hdi_value", ["asylum_inflow", "inflow"], hdi_label, "Number of Asylum-Seekers + Refugees");
+
+  drawScatterPlot("#hdi-outdegree-centrality", "hdi_value", "outdegree_centrality", hdi_label, "Outdegree Centrality");
+  drawScatterPlot("#hdi-indegree-centrality", "hdi_value", "indegree_centrality", hdi_label, "Indegree Centrality");
+  drawScatterPlot("#fgi-outdegree-centrality", "fgi_value", "outdegree_centrality", fgi_label, "Outdegree Centrality");
+  drawScatterPlot("#fgi-indegree-centrality", "fgi_value", "indegree_centrality", fgi_label, "Indegree Centrality");
 }
