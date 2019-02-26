@@ -60,7 +60,6 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
 
     var svg = d3.select(svg_css)
             .append("svg")
-            // .style("background-color", "whitesmoke")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
