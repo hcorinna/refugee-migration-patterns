@@ -17,9 +17,13 @@ var plotWidth, plotHeight;
  * Execute once page has been fully loaded.
  */
 $(function() {
-  tooltip = d3.select("#map")
+  tooltip = d3.select("body")
           .append("div")
           .attr("class", "tooltip hidden");
+
+  // tooltip = d3.select("#map")
+  //         .append("div")
+  //         .attr("class", "tooltip hidden");
 
   tooltipDot = d3.select(".carousel-inner")
     .append("div")
@@ -186,7 +190,7 @@ function drawMap() {
             if (d.details['fgi_value'] && d.details['fgi_rank']) {
               label += "<br>" + "FGI: " + d.details['fgi_value'] + " (" + d.details['fgi_rank'] + ")"
             }
-            showTooltip(d, label, svg, tooltip);
+            showTooltip(d, label);
         })
         .on('mouseout', function (d) {
             d3.select(this)
@@ -365,12 +369,11 @@ return longest
 };
 
 // tooltip stuff
-function showTooltip(d, label, element, tooltipElement, offset_xy = [1,1]) {
-    var mouse = d3.mouse(element.node())
-                .map( function(d) { return parseInt(d); } );
-    tooltipElement.classed("hidden", false)
-            .attr("style", "left:"+(mouse[0]+offset_xy[0])+"px;top:"+(mouse[1]+offset_xy[1])+"px")
-            .html(label);
+function showTooltip(d, label, offset_xy = [10,-35]) {
+  var mouse = [d3.event.pageX, d3.event.pageY]
+  tooltip.classed("hidden", false)
+          .attr("style", "left:"+(mouse[0]+offset_xy[0])+"px;top:"+(mouse[1]+offset_xy[1])+"px")
+          .html(label);
 };
 
 function selected() {
@@ -460,12 +463,12 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
             .style("cursor", "pointer");
 
         var label = d.properties.name + "<br/> (x: " + xValue(d) + ", y: " + yValue(d) + ")";
-        showTooltip(d, label, d3.select(id), tooltipDot, [1,2]);
+        showTooltip(d, label);
       })
       .on("mouseout", function(d) {
         d3.select(this)
             .style("stroke", "#e67e22");
-        tooltipDot.classed("hidden", true);
+        tooltip.classed("hidden", true);
       });
 }
 
@@ -483,6 +486,4 @@ function drawPlots() {
   drawScatterPlot("#hdi-indegree-centrality", "hdi_value", "indegree_centrality", hdi_label, "Indegree Centrality");
   drawScatterPlot("#fgi-outdegree-centrality", "fgi_value", "outdegree_centrality", fgi_label, "Outdegree Centrality");
   drawScatterPlot("#fgi-indegree-centrality", "fgi_value", "indegree_centrality", fgi_label, "Indegree Centrality");
-
-  drawScatterPlot("#eigenvector-closeness-centrality", "eigenvector_centrality", "closeness_centrality", "Eigenvector", "Closeness Centrality");
 }

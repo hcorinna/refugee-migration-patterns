@@ -10,30 +10,33 @@ d3.queue()
                 {
                     svg_css: '#scatter_first',
                     x_field: 'eigenvector_centrality',
-                    y_field: 'closeness_centrality'
+                    y_field: 'closeness_centrality',
+                    x_label: 'Eigenvector Centrality (In)',
+                    y_label: 'Closeness Centrality (In)'
                 },
                 {
                     svg_css: '#scatter_second',
                     x_field: 'eigenvector_centrality_out',
-                    y_field: 'out_closeness_centrality'
+                    y_field: 'out_closeness_centrality',
+                    x_label: 'Eigenvector Centrality (Out)',
+                    y_label: 'Closeness Centrality (Out)'
                 }
             ];
             graph_data.forEach(function(graph){
                 drawscatter(
-                    data[year], 
-                    graph.svg_css, 
-                    graph.x_field, 
-                    graph.y_field
+                    data[year],
+                    graph.svg_css,
+                    graph.x_field,
+                    graph.y_field,
+                    graph.x_label,
+                    graph.y_label
                     );
             });
-            
+
         };
     });
 
-var drawscatter = function(data, svg_css, x_field, y_field){
-
-    var scatter_tooltip = d3.select("div.scatter_tooltip");
-    
+var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
     var dim_width = window.innerWidth/2.8,
     dim_height = window.innerHeight/2.8,
     margin = {top: dim_height/10, right: dim_width/10, bottom: dim_height/5, left: dim_width/5};
@@ -48,33 +51,34 @@ var drawscatter = function(data, svg_css, x_field, y_field){
 
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    var xAxis = d3.axisBottom(x);
+    var xAxis = d3.axisBottom(x).ticks(5);;
 
-    var yAxis = d3.axisLeft(y);
+    var yAxis = d3.axisLeft(y).ticks(5);;
 
     x.domain(d3.extent(data, function(d) { return d[x_field]; })).nice();
     y.domain(d3.extent(data, function(d) { return d[y_field]; })).nice();
 
     var svg = d3.select(svg_css)
             .append("svg")
-            .style("background-color", "whitesmoke")
+            // .style("background-color", "whitesmoke")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     svg.append("g")
-        .attr("class", "x scatter_axis")
+        .attr("class", "x axis-line")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
-    svg.append("text")             
+    svg.append("text")
         .attr("transform", "translate(" + (width/2) + " ," + (height + margin.bottom * .9) + ")")
         .style("text-anchor", "middle")
-        .text(x_field);
+        .style('fill', '#fff')
+        .text(x_label);
 
     svg.append("g")
-        .attr("class", "y scatter_axis")
+        .attr("class", "y axis-line")
         .call(yAxis);
 
     svg.append("text")
@@ -82,8 +86,9 @@ var drawscatter = function(data, svg_css, x_field, y_field){
         .attr("y", 0 - margin.left)
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
+        .style('fill', '#fff')
         .style("text-anchor", "middle")
-        .text(y_field);
+        .text(y_label);
 
     svg.selectAll(".dot")
         .data(data)
@@ -94,20 +99,16 @@ var drawscatter = function(data, svg_css, x_field, y_field){
         .attr("cy", function(d) { return y(d[y_field]); })
         .style("fill", function(d) { return color(d.country); })
         .on("mouseover", function(d) {
-            scatter_tooltip
-                .transition()
-                .duration(200)
-                .style("opacity", .9);
-            scatter_tooltip
-                .text(d.country)
-                .style("left", (d3.event.pageX + 5) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+          d3.select(this)
+              .style("stroke", "#fff")
+              .style("cursor", "pointer");
+          var label = d.country + "<br/> (x: " + d[x_field] + ", y: " + d[y_field] + ")";
+          showTooltip(d, label);
             })
         .on("mouseout", function(d) {
-            scatter_tooltip
-                .transition()
-                .duration(500)
-                .style("opacity", 0);
+          d3.select(this)
+              .style("stroke", "#000")
+          tooltip.classed("hidden", true);
             });
 
     var legend = svg.selectAll(".legend")
