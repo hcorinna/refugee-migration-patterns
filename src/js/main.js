@@ -105,7 +105,7 @@ function draw() {
 
 function update() {
   map.remove();
-  d3.selectAll("g > *").remove();
+  // d3.selectAll("g > *").remove();
   tooltip.classed("hidden", true);
   draw();
 }
@@ -249,11 +249,18 @@ function drawarcs(svg, migration) {
 
 			// move cursor to origin
 			return "M" + origin[0] + ',' + origin[1]
-			//draw straight line to destination
-				+ "L" + dest[0] + "," + dest[1]
+			// smooth curve to offset midpoint
+				+ "S" + midcurve[0] + "," + midcurve[1]
+			//smooth curve to destination
+				+ "," + dest[0] + "," + dest[1]
 			//straight line to arrowhead point
-                                + "l" + (1*(-dest[1]+midcurve[1])/scalar) + "," + (-3*(dest[0]-midcurve[0])/scalar) + "z"
-                  
+				+ "L" + arrowpoint[0] + "," + arrowpoint[1]
+			// straight line towards original curve along scaled orthogonal vector (creates notched arrow head)
+				+ "l" + (0.3*size*(-dest[1]+midcurve[1])/scalar) + "," + (0.3*size*(dest[0]-midcurve[0])/scalar)
+				// smooth curve to midpoint
+				+ "S" + (midcurve[0]) + "," + (midcurve[1])
+				//smooth curve to origin
+				+ "," + origin[0] + "," + origin[1]
 		});
 
 	arcs.exit()
