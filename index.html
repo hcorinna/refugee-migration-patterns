@@ -96,6 +96,9 @@
                   In our analysis of refugee migration patterns, we collected data and represented it as a network that you can see on the map. Countries are connected if a sufficiently high number of people flee from one country to another. You can change the threshold for "sufficiently high" with the threshold slider. Similarly, you can change the year you want to look at.
                 </p>
                 <p>
+                  We obtained values from network analysis for each country over time, such as centrality measures and network constraints, and combined with index values to use as features to train a prediction model. Without tuning, our time series model predicts with approximately 30% MAPE.
+                </p>
+                <p>
                   The countries are colored according to their Fragile States Index where red indicates a high fragility and blue represents stability.
                   If you hover on countries, you can see their Human Development Index (HDI) value (and rank) as well as their Fragile States Index (FSI) value (and rank).
                 </p>
@@ -124,6 +127,7 @@
                   The correlation matrix allows you to see between which measures there is a positive or negative correlation.
                 </p>
                 <div id="matrix_legend"></div>
+                </br>
                 </br>
                 </br>
                 <div id="matrix_grid"></div>

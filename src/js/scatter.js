@@ -96,7 +96,9 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
         .attr("r", 3.5)
         .attr("cx", function(d) { return x(d[x_field]); })
         .attr("cy", function(d) { return y(d[y_field]); })
-        .style("fill", function(d) { return color(d.country); })
+        .style("fill", function(d) { return '#fff'; })
+        .style('stroke', '#e67e22')
+        .style('cursor', 'pointer')
         .on("mouseover", function(d) {
           d3.select(this)
               .style("stroke", "#fff")
@@ -106,7 +108,7 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
             })
         .on("mouseout", function(d) {
           d3.select(this)
-              .style("stroke", "#000")
+              .style("stroke", "#e67e22")
           tooltip.classed("hidden", true);
             });
 

@@ -31,12 +31,16 @@ var refresh_scatter = function(year){
                 {
                     svg_css: '#scatter_first',
                     x_field: 'eigenvector_centrality',
-                    y_field: 'closeness_centrality'
+                    y_field: 'closeness_centrality',
+                    x_label: 'Eigenvector Centrality (In)',
+                    y_label: 'Closeness Centrality (In)'
                 },
                 {
                     svg_css: '#scatter_second',
                     x_field: 'eigenvector_centrality_out',
-                    y_field: 'out_closeness_centrality'
+                    y_field: 'out_closeness_centrality',
+                    x_label: 'Eigenvector Centrality (Out)',
+                    y_label: 'Closeness Centrality (Out)'
                 }
             ];
             graph_data.forEach(function(graph){
@@ -44,7 +48,9 @@ var refresh_scatter = function(year){
                     data[year], 
                     graph.svg_css, 
                     graph.x_field, 
-                    graph.y_field
+                    graph.y_field,
+                    graph.x_label,
+                    graph.y_label
                     );
             });
         };
