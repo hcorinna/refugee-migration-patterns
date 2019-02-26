@@ -21,14 +21,6 @@ $(function() {
           .append("div")
           .attr("class", "tooltip hidden");
 
-  // tooltip = d3.select("#map")
-  //         .append("div")
-  //         .attr("class", "tooltip hidden");
-
-  tooltipDot = d3.select(".carousel-inner")
-    .append("div")
-    .attr("class", "tooltip hidden");
-
   plotWidth = getPlotWidth();
   plotHeight = getPlotHeight();
 
@@ -115,7 +107,6 @@ function update() {
   map.remove();
   d3.selectAll("g > *").remove();
   tooltip.classed("hidden", true);
-  tooltipDot.classed("hidden", true);
   draw();
 }
 
