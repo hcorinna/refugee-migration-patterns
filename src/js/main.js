@@ -464,8 +464,10 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
 }
 
 function drawPlots() {
+  $('[id*=hdi], [id*=fgi]').empty();
   var hdi_label = "Human Development Index (HDI)";
   var fgi_label = "Fragile States Index (FSI)";
+
   drawScatterPlot("#hdi-refugees-out", "hdi_value", "outflow", hdi_label, "Number of Refugees");
   drawScatterPlot("#hdi-refugees-in", "hdi_value", "inflow", hdi_label, "Number of Refugees");
   drawScatterPlot("#hdi-asylum-out", "hdi_value", "asylum_outflow", hdi_label, "Number of Asylum-Seekers");
