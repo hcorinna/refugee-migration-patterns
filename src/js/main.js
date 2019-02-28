@@ -9,7 +9,6 @@ var features;
 var world;
 var indices;
 var migration;
-var tooltip, tooltipDot;
 var MARGIN = {top: 20, right: 120, bottom: 130, left: 80};
 var plotWidth, plotHeight;
 
@@ -17,10 +16,6 @@ var plotWidth, plotHeight;
  * Execute once page has been fully loaded.
  */
 $(function() {
-  tooltip = d3.select("body")
-          .append("div")
-          .attr("class", "tooltip hidden");
-
   plotWidth = getPlotWidth();
   plotHeight = getPlotHeight();
 
@@ -105,8 +100,7 @@ function draw() {
 
 function update() {
   map.remove();
-  // d3.selectAll("g > *").remove();
-  tooltip.classed("hidden", true);
+  hideTooltip();
   draw();
 }
 
@@ -187,30 +181,9 @@ function drawMap() {
             d3.select(this)
                 .style("stroke", null)
                 .style("stroke-width", 0.25);
-            tooltip.classed("hidden", true);
+            hideTooltip();
         });
 
-    // draw middle of country
-    // map.append("g")
-    //     .selectAll("circle.central")
-    //     .data(features)
-    //     .enter()
-    //     .append("circle")
-    //     .attr("name", function(d) { return d.properties.name;})
-    //     .attr("id", function(d) { return 'middle_' + d.id;})
-    //     .attr("r", 2)
-    //     .attr("cx", function(d) { return d.pos.x; })
-    //     .attr("cy", function(d) { return d.pos.y; })
-    //     .style("fill", "white")
-    //     .style("opacity", 0.6)
-    //     .style("stroke", "#252525")
-    //     .on('click', selected)
-    //     .on("mousemove", showTooltip)
-    //     .on("mouseout",  function(d,i) {
-    //         tooltip.classed("hidden", true);
-    //     });
-
-    // draw edge
     drawarcs(map, migration_features);
 }
 
@@ -351,14 +324,6 @@ coordinates.forEach(function(coordinate){
 return longest
 };
 
-// tooltip stuff
-function showTooltip(d, label, offset_xy = [10,-35]) {
-  var mouse = [d3.event.pageX, d3.event.pageY]
-  tooltip.classed("hidden", false)
-          .attr("style", "left:"+(mouse[0]+offset_xy[0])+"px;top:"+(mouse[1]+offset_xy[1])+"px")
-          .html(label);
-};
-
 function selected() {
   d3.select('.selected').classed('selected', false);
   d3.select(this).classed('selected', true);
@@ -451,7 +416,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       .on("mouseout", function(d) {
         d3.select(this)
             .style("stroke", "#e67e22");
-        tooltip.classed("hidden", true);
+        hideTooltip();
       });
 }
 

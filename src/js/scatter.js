@@ -109,7 +109,7 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
         .on("mouseout", function(d) {
           d3.select(this)
               .style("stroke", "#e67e22")
-          tooltip.classed("hidden", true);
+          hideTooltip();
             });
 
     var legend = svg.selectAll(".legend")
