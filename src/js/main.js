@@ -16,9 +16,16 @@ var plotWidth, plotHeight;
  * Execute once page has been fully loaded.
  */
 $(function() {
-  plotWidth = getPlotWidth();
-  plotHeight = getPlotHeight();
+  initializePlots();
+  initializeMap();
+  initializeSliders();
+  fillWithData();
+});
 
+/**
+ * Sets up the map.
+ */
+function initializeMap() {
   var width = d3.select("#map").node().getBoundingClientRect().width,
       height = d3.select("#map").node().getBoundingClientRect().height;
 
@@ -37,11 +44,6 @@ $(function() {
 
   svg.call(zoom);
 
-  // year filter
-  year = 2008;
-  // migration volumn filter
-  threshold = 0.00025;
-
   // geoMercator projection
   projection = d3.geoMercator() //d3.geoOrthographic()
       .scale(120)
@@ -55,7 +57,12 @@ $(function() {
       .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 110, 120])
       .range(["#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722"]);
 
-  // loading json stuffs
+}
+
+/**
+ * Loads the json files and fills the visualization with the data.
+ */
+function fillWithData() {
   d3.queue()
     .defer(d3.json, "src/data/50m.json")
     .defer(d3.json, "src/data/country_features.json")
@@ -72,38 +79,64 @@ $(function() {
           draw();
         }
     });
+}
 
-    d3.select("#year-selector")
-    .property('value', year)
-    .on("input", function() {
-      d3.select("#selected-year").html(this.value);
-      year = this.value;
-      update();
-    });
-    d3.select("#selected-year").html(year);
+/**
+ * Initializes the year and threshold slider.
+ */
+function initializeSliders() {
+  year = 2008;
+  threshold = 0.00025;
 
-    d3.select("#threshold-selector")
-    .property('value', threshold)
-    .on("input", function() {
-      d3.select("#selected-threshold").html(this.value);
-      threshold = this.value;
-      update();
-    });
-    d3.select("#selected-threshold").html(threshold);
-});
+  d3.select("#year-selector")
+  .property('value', year)
+  .on("input", function() {
+    d3.select("#selected-year").html(this.value);
+    year = this.value;
+    update();
+  });
+  d3.select("#selected-year").html(year);
 
+  d3.select("#threshold-selector")
+  .property('value', threshold)
+  .on("input", function() {
+    d3.select("#selected-threshold").html(this.value);
+    threshold = this.value;
+    update();
+  });
+  d3.select("#selected-threshold").html(threshold);
+}
+
+/**
+ * Initializes the size for the scatter plots.
+ */
+function initializePlots() {
+  plotWidth = d3.select(".carousel-inner").node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
+  plotHeight = d3.select(".carousel-inner").node().getBoundingClientRect().height / 1.5 - MARGIN.top - MARGIN.bottom;
+}
+
+/**
+ * Draws the map and scatter plots.
+ */
 function draw() {
   updateFeatures();
   drawMap();
+  drawArcs();
   drawPlots();
 }
 
+/**
+ * Updates the map and the scatter plots.
+ */
 function update() {
   map.remove();
   hideTooltip();
   draw();
 }
 
+/**
+ * Initial creation of the features of each country.
+ */
 function createFeatures() {
   features = topojson.feature(world, world.objects.countries).features;
   indicesByYear = {2006: {}, 2007: {}, 2008: {}, 2009: {}, 2010: {}, 2011: {}, 2012: {}, 2013: {}, 2014: {}, 2015: {}, 2016: {}, 2017: {}};
@@ -137,17 +170,21 @@ function createFeatures() {
   });
 }
 
+/**
+ * Updates the features of each country to the selected year.
+ */
 function updateFeatures() {
   features.forEach(function (d) {
       d.details = indicesByYear[year][d.id] ? indicesByYear[year][d.id] : {};
   });
 }
 
+/**
+ * Draws the map.
+ */
 function drawMap() {
-    migration_features = migrate(features, migration, year);
-
     map = svg.append("g");
-    // draw map
+
     map.append("g")
         .selectAll("path")
         .data(features)
@@ -175,7 +212,7 @@ function drawMap() {
             if (d.details['fgi_value'] && d.details['fgi_rank']) {
               label += "<br>" + "FGI: " + d.details['fgi_value'] + " (" + d.details['fgi_rank'] + ")"
             }
-            showTooltip(d, label);
+            showTooltip(label);
         })
         .on('mouseout', function (d) {
             d3.select(this)
@@ -183,29 +220,35 @@ function drawMap() {
                 .style("stroke-width", 0.25);
             hideTooltip();
         });
-
-    drawarcs(map, migration_features);
 }
 
-function drawarcs(svg, migration) {
-    var arcs = svg.selectAll('path.datamaps-arc').data(migration);
-    min_migration = threshold;
-    max_migration = 0;
-    migration.forEach(function(d){
-        if (d.share > max_migration){
-            max_migration = d.share;
-        };
-    });
-    var pop_scale = d3.scaleLinear().domain([min_migration, max_migration]).range([1,100])
-	arcs
+/**
+ * Draws the arcs.
+ */
+function drawArcs() {
+  var migration_features = createMigrationFeatures();
+
+  var min_migration = threshold;
+  var max_migration = 0;
+  migration_features.forEach(function(d){
+      if (d.share > max_migration){
+          max_migration = d.share;
+      };
+  });
+
+  var pop_scale = d3.scaleLinear().domain([min_migration, max_migration]).range([1,100]);
+
+  var arcs = map.selectAll('path.datamaps-arc').data(migration_features);
+
+  arcs
 		.enter()
 		.append('path')
 		.attr('class','arc')
 		.attr('d', function(d) {
 			var origin = [d.source.x, d.source.y];
 			var dest = [d.target.x, d.target.y];
-            var mid = [ (origin[0] + dest[0]) / 2, (origin[1] + dest[1]) / 2];
-            var size = pop_scale(d.share);
+      var mid = [ (origin[0] + dest[0]) / 2, (origin[1] + dest[1]) / 2];
+      var size = pop_scale(d.share);
 
 			//define handle points for Bezier curves. Higher values for curveoffset will generate more pronounced curves.
 			var curveoffset = 20,
@@ -235,10 +278,13 @@ function drawarcs(svg, migration) {
 
 };
 
-// init all drawing map, circle and line
-function migrate(world_data, migration_data, select_year){
+/**
+ * Create the migration features needed to draw the arcs.
+ * @return {Array}      The migration features for the arcs
+ */
+function createMigrationFeatures(){
     var country_data = [];
-    world_data.forEach(function(d){
+    features.forEach(function(d){
         all_coordinates = longest_coordinates(d.geometry.coordinates);
         middle_pos = middle_coordinates(all_coordinates);
         d['pos'] = {
@@ -260,9 +306,9 @@ function migrate(world_data, migration_data, select_year){
     });
     var country_map = d3.map(country_data, function(d){ return d.id});
     var movements = []
-    migration_data.forEach(function(d){
+    migration.forEach(function(d){
         d = JSON.parse(d);
-        if (d.year != parseInt(select_year) || d.share < parseFloat(threshold)){
+        if (d.year != parseInt(year) || d.share < parseFloat(threshold)){
           return
         };
 
@@ -281,10 +327,13 @@ function migrate(world_data, migration_data, select_year){
 
       });
     return movements;
-
 };
 
-// central coordinate of each map
+/**
+ * Calculate the central coordinate of a country
+ * @param  list_coordinates Coordinates of the country
+ * @return {Object}      The coordinates of the central point
+ */
 function middle_coordinates(list_coordinates){
     var sum_x = 0;
     var count_x = 0;
@@ -305,38 +354,37 @@ function middle_coordinates(list_coordinates){
     }
   };
 
-// area of map which is biggest
+/**
+ * Area of a country which is the biggest
+ * @param  coordinates The coordinates of a country
+ */
 function longest_coordinates(coordinates){
-longest = []
-coordinates.forEach(function(coordinate){
-    if (coordinate.length == 0){
-    return
-    };
-    if (coordinate.length == 1){
-    compare_coordinate = coordinate[0];
-    }else{
-    compare_coordinate = coordinate;
-    };
-    if (longest.length < compare_coordinate.length){
-    longest = compare_coordinate;
-    };
-});
-return longest
+  longest = []
+  coordinates.forEach(function(coordinate){
+      if (coordinate.length == 0){
+        return
+      };
+      if (coordinate.length == 1) {
+        compare_coordinate = coordinate[0];
+      } else {
+        compare_coordinate = coordinate;
+      };
+      if (longest.length < compare_coordinate.length) {
+        longest = compare_coordinate;
+      };
+  });
+  return longest
 };
 
-function selected() {
-  d3.select('.selected').classed('selected', false);
-  d3.select(this).classed('selected', true);
-};
-
-function getPlotWidth(selector) {
-    return d3.select(".carousel-inner").node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
-}
-
-function getPlotHeight(selector) {
-    return d3.select(".carousel-inner").node().getBoundingClientRect().height / 1.5 - MARGIN.top - MARGIN.bottom;
-}
-
+/**
+ * Draws a scatter plot.
+ * @param  {String} id SVG element on which the plot should be drawn
+ * @param  {Number} x The x value (any of the attributes of indicesByYear)
+ * @param  {Number} x The y value (any of the attributes of indicesByYear)
+ * @param  {String} xLabel The label for the x-axis
+ * @param  {String} yLabel The label for the y-axis
+ * @return {Number}      The total of the two numbers
+ */
 function drawScatterPlot(id, x, y, xLabel, yLabel) {
   var plot = d3.select(id)
       .append("g")
@@ -411,7 +459,7 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
             .style("cursor", "pointer");
 
         var label = d.properties.name + "<br/> (x: " + xValue(d) + ", y: " + yValue(d) + ")";
-        showTooltip(d, label);
+        showTooltip(label);
       })
       .on("mouseout", function(d) {
         d3.select(this)
@@ -420,6 +468,9 @@ function drawScatterPlot(id, x, y, xLabel, yLabel) {
       });
 }
 
+/**
+ * Draws the scatter plots.
+ */
 function drawPlots() {
   $('[id*=hdi], [id*=fgi]').empty();
   var hdi_label = "Human Development Index (HDI)";

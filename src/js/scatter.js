@@ -36,6 +36,9 @@ d3.queue()
         };
     });
 
+/**
+ * Draws the eigenvector centrality vs. closeness centrality plot
+ */
 var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
     var dim_width = window.innerWidth/2.8,
     dim_height = window.innerHeight/2.8,
@@ -104,7 +107,7 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
               .style("stroke", "#fff")
               .style("cursor", "pointer");
           var label = d.country + "<br/> (x: " + d[x_field] + ", y: " + d[y_field] + ")";
-          showTooltip(d, label);
+          showTooltip(label);
             })
         .on("mouseout", function(d) {
           d3.select(this)
@@ -117,5 +120,4 @@ var drawscatter = function(data, svg_css, x_field, y_field, x_label, y_label){
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
 };

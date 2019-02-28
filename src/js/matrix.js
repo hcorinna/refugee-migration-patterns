@@ -43,6 +43,9 @@ d3.queue()
         ;
     });
 
+/**
+ * Draws the correlation matrix
+ */
 var drawMatrix = function (data, cols) {
     var corr = jz.arr.correlationMatrix(data, cols);
     var extent = d3.extent(corr.map(function (d) {

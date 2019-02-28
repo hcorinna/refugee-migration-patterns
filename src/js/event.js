@@ -1,3 +1,7 @@
+/**
+ * Updates the matrix to the given year
+ * @param  {Number} year The year to which the matrix should be updated
+ */
 var refresh_matrix = function(year){
     $('#matrix_grid').empty();
     $('#matrix_legend').empty();
@@ -18,6 +22,10 @@ var refresh_matrix = function(year){
     });
 };
 
+/**
+ * Updates the eigenvector centrality vs. closeness centrality plot to the given year
+ * @param  {Number} year The year to which the plot should be updated
+ */
 var refresh_scatter = function(year){
     $('#scatter_first').empty();
     $('#scatter_second').empty();
@@ -45,9 +53,9 @@ var refresh_scatter = function(year){
             ];
             graph_data.forEach(function(graph){
                 drawscatter(
-                    data[year], 
-                    graph.svg_css, 
-                    graph.x_field, 
+                    data[year],
+                    graph.svg_css,
+                    graph.x_field,
                     graph.y_field,
                     graph.x_label,
                     graph.y_label
@@ -57,18 +65,29 @@ var refresh_scatter = function(year){
     });
 };
 
-
+/**
+ * Updates the power law plot to the given year
+ * @param  {Number} year The year to which the plot should be updated
+ */
 var refresh_power = function(year){
     console.log(year);
     src = 'src/media/' + year + '_powerlaw.png';
     $('#power_plot').attr('src', src);
 };
 
+/**
+ * Updates the degree distribution plot to the given year
+ * @param  {Number} year The year to which the plot should be updated
+ */
 var refresh_degree = function(year){
     src = 'src/media/' + year + '_degree_distribution.png';
     $('#degree_plot').attr('src', src);
 };
 
+/**
+ * Updates the correlation matrix, power law plots, degree distribution plots and eigenvector centrality vs. closeness centrality plots to the given year
+ * @param  {Number} year The year to which the graphs should be updated
+ */
 var refresh_year = function(year){
     refresh_matrix(year);
     refresh_power(year);
